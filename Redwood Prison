@@ -1,1 +1,161 @@
---nothing
+local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
+local autoRespawn, Teams, antiCheat = nil, game.Teams, nil
+local SavedPositions = {AutoRe = nil, Crimpad = workspace["robber spawn"].CFrame}
+local Connections = {Died = nil, CharacterAdded = nil}
+local Camera = game:FindService("Workspace").Camera
+local Rservice = game:GetService("RunService")
+local Hbeat = Rservice.Heartbeat
+local Rstep = Rservice.RenderStepped
+local Stepped = Rservice.Stepped
+local PreS = Rservice.PreSimulation
+local LocalPlayer = game.Players.localPlayer
+local Window = lib:NewWindow("Redwood Prison")
+local Main = Window:NewSection("Main")
+local Team = Window:NewSection("Team")
+local Kill = Window:NewSection("Kill")
+local Loops = {Kills = {All = false}}
+local connection
+function SaveCamPos()
+	SavedPositions.OldCameraPos = Camera.CFrame
+end
+function LoadCamPos()
+	Rstep:Wait()
+	Camera.CFrame = SavedPositions.OldCameraPos or Camera.CFrame
+end
+function LocTP(cframe)
+    LocalPlayer.Character.HumanoidRootPart.CFrame = cframe
+end
+function Resources(remote)
+  return workspace.resources:FindFirstChild(remote)
+end
+function LoadChar()
+  Resources("RemoteEvent"):FireServer("reloadMe")
+end
+function TeamEve(arg)
+  Resources("RemoteFunction"):InvokeServer("requestTeam", arg); LoadChar()
+end
+function TeamTo(args)
+  SavedPositions.AutoRe = LocalPlayer.Character.HumanoidRootPart.CFrame; SaveCamPos()
+  if args == "guard" then
+    TeamEve("police")
+  elseif args == "inmate" then
+    TeamEve("prisoners")
+  elseif args == "criminal" then
+    TeamEve("prisoners")
+    workspace["robber spawn"].CanCollide = false
+    workspace["robber spawn"].CFrame = LocalPlayer.Character.HumanoidRootPart.CFrame
+    LocalPlayer.CharacterAdded:Wait()
+    repeat task.wait()
+      pcall(function()
+        workspace["robber spawn"].CFrame = LocalPlayer.Character.HumanoidRootPart.CFrame
+      end)
+    until LocalPlayer.Team == game.Teams.Fugitives
+    workspace["robber spawn"].CFrame = SavedPositions.Crimpad
+    return
+  elseif args == "neutral" then
+    Resources("RemoteEvent"):FireServer("choiceResult", "returnToMenu", true); LoadChar()
+  end
+end
+function KillPLR(plr)
+    local tool = LocalPlayer.Backpack:FindFirstChild("M60") or LocalPlayer.Character:FindFirstChild("M60")
+    if not tool then
+       Resources("RemoteFunction"):InvokeServer("giveItem", "M60")
+    end
+    LocalPlayer.Character.Humanoid:EquipTool(LocalPlayer.Backpack.M60)
+    Resources("RemoteEvent"):FireServer("dealDamage", plr.Character.Humanoid, math.huge); task.wait()
+    LocalPlayer.Character.M60:Destroy()
+end
+Main:CreateToggle("Auto Respawn", function(state)
+  autoRespawn = state
+end)
+Main:CreateToggle("Anti Ban", function(state)
+  antiCheat = state
+end)
+Team:CreateButton("Become Guard", function()
+  TeamTo("guard")
+end)
+Team:CreateButton("Become Inmate", function()
+  TeamTo("inmate")
+end)
+Team:CreateButton("Become Criminal", function()
+  TeamTo("criminal")
+end)
+Team:CreateButton("Become Neutral", function()
+  TeamTo("neutral")
+end)
+Kill:CreateButton("Kill All", function()
+if LocalPlayer.Team ~= Teams.Choosing then
+      TeamTo("neutral")
+      game.Players.LocalPlayer.CharacterAdded:Wait()
+end
+for i,v in ipairs(game.Players:GetPlayers()) do
+      if v.Team ~= Teams.Choosing and v ~= game.Players.LocalPlayer and not v.Character:FindFirstChild("ForceField") and v.Character.Humanoid.Health ~= 0 then
+             KillPLR(v)
+      end
+end
+end)
+Kill:CreateButton("Kill Inmates", function()
+if LocalPlayer.Team ~= Teams.Fugitives then
+      TeamTo("criminal")
+end
+for i,v in ipairs(game.Teams.Prisoners:GetPlayers()) do
+      if v ~= game.Players.LocalPlayer and not v.Character:FindFirstChild("ForceField") and v.Character.Humanoid.Health ~= 0 then
+             KillPLR(v)
+      end
+end
+end)
+Kill:CreateButton("Kill Guards", function()
+if LocalPlayer.Team == Teams.Police then
+      TeamTo("prisoners")
+      LocalPlayer.CharacterAdded:Wait()
+end
+for i,v in ipairs(game.Teams.Police:GetPlayers()) do
+      if v ~= game.Players.LocalPlayer and not v.Character:FindFirstChild("ForceField") and v.Character.Humanoid.Health ~= 0 then
+             KillPLR(v)
+      end
+end
+end)
+game.RunService.RenderStepped:Connect(function()
+  if antiCheat and LocalPlayer.PlayerGui.GUI.banFrame.Visible then
+    LocalPlayer.PlayerGui.GUI.banFrame.Visible = nil
+  end
+  if LocalPlayer.Team == Teams.Choosing then
+    Camera.CameraType = "Track"; LocalPlayer.PlayerGui.GUI.roleChoose.Visible = nil; Camera.CameraSubject = LocalPlayer.Character.Humanoid
+  end
+end)
+local lochar = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+local function ondiedevent()
+	coroutine.wrap(function()
+		Connections.Died:Disconnect(); SaveCamPos()
+		SavedPositions.AutoRe = lochar:WaitForChild("HumanoidRootPart", 1) and LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame
+        if autoRespawn then
+               LoadChar()
+        end
+	end)()
+end
+local function charaddtask()
+	Connections.Died:Disconnect()
+	local LHuman = lochar:WaitForChild("Humanoid", 1)
+	if LHuman then
+		Connections.Died = LHuman.Died:Connect(ondiedevent)
+	end
+end
+local function oncharadded()
+	lochar = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+	if SavedPositions.AutoRe and autoRespawn then
+		local LRoot = lochar:WaitForChild("HumanoidRootPart", 1)
+		if LRoot then
+			LRoot.CFrame = SavedPositions.AutoRe; LoadCamPos(); LRoot.CFrame = SavedPositions.AutoRe
+			task.spawn(function()
+				for i = 1, 5 do
+					task.wait(); LRoot.CFrame = SavedPositions.AutoRe
+				end
+			end)
+		end
+	end
+	lochar:WaitForChild("Humanoid", 1):SetStateEnabled(Enum.HumanoidStateType.FallingDown, false)
+	lochar:WaitForChild("Humanoid", 1):SetStateEnabled(Enum.HumanoidStateType.Ragdoll, false)
+  coroutine.wrap(charaddtask)()
+end
+Connections.Died = lochar:WaitForChild("Humanoid").Died:Connect(ondiedevent)
+Connections.CharacterAdded = LocalPlayer.CharacterAdded:Connect(oncharadded)

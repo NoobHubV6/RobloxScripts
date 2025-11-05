@@ -1,0 +1,58 @@
+game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(child)
+  if child.Name == "ErrorPrompt" then
+    game.TeleportService:Teleport(game.PlaceId)
+  end
+end)
+if game.PlaceId == 73934517857372 then
+local remote = game.ReplicatedStorage.Remotes.RemoteFunctions
+spawn(function()
+  function work()
+    game.Players.LocalPlayer.PlayerGui.PlayerWinGui.Enabled = false
+    remote.PlayerRebirth:InvokeServer()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-33, 14, 3799)
+    remote.GetWinRewards:InvokeServer()
+  end
+  while task.wait() do
+    coroutine.wrap(work)()
+  end
+end)
+elseif game.PlaceId == 118515027348509 then
+local remote = game.ReplicatedStorage.Remotes.RemoteFunctions
+spawn(function()
+  function work()
+    game.Players.LocalPlayer.PlayerGui.PlayerWinGui.Enabled = false
+    remote.PlayerRebirth:InvokeServer()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-4, 37, 4737)
+    remote.GetWinRewards:InvokeServer()
+  end
+  while task.wait() do
+    coroutine.wrap(work)()
+  end
+end)
+elseif game.PlaceId == 99443519093670 then
+local remote = game.ReplicatedStorage.Remotes.RemoteFunctions
+spawn(function()
+  function work()
+    game.Players.LocalPlayer.PlayerGui.PlayerWinGui.Enabled = false
+    remote.PlayerRebirth:InvokeServer()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-79, 15, 7770)
+    remote.GetWinRewards:InvokeServer()
+  end
+  while task.wait() do
+    coroutine.wrap(work)()
+  end
+end)
+else
+local remote = game.ReplicatedStorage.Remotes.RemoteFunctions
+spawn(function()
+  function work()
+    game.Players.LocalPlayer.PlayerGui.PlayerWinGui.Enabled = false
+    remote.PlayerRebirth:InvokeServer()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-403, -111, 4437)
+    remote.GetWinRewards:InvokeServer()
+  end
+  while task.wait() do
+    coroutine.wrap(work)()
+  end
+end)
+end

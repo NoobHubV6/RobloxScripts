@@ -1,0 +1,23 @@
+local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
+local Window = lib:NewWindow("Strongest punch simulator")
+local Main = Window:NewSection("Main")
+local connection, AutoOrb
+Main:CreateToggle("Auto Punch", function(state)
+  if state then
+    connection = game.RunService.RenderStepped:Connect(function()
+      game.ReplicatedStorage.RemoteEvent:FireServer({"Activate_Punch"})
+    end)
+  else
+    connection:Disconnect()
+    connection = nil
+  end
+end)
+Main:CreateToggle("Auto Orb", function(state)
+  AutoOrb = state
+  while AutoOrb and wait() do
+    for i,v in ipairs(game.Workspace.Map.Stages.Boosts[game.Players.LocalPlayer.leaderstats.WORLD.Value]:GetDescendants()) do
+      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Parent.CFrame
+      wait(.5)
+    end
+  end
+end)

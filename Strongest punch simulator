@@ -14,10 +14,12 @@ Main:CreateToggle("Auto Punch", function(state)
 end)
 Main:CreateToggle("Auto Orb", function(state)
   AutoOrb = state
-  while AutoOrb and wait() do
-    for i,v in ipairs(game.Workspace.Map.Stages.Boosts[game.Players.LocalPlayer.leaderstats.WORLD.Value]:GetDescendants()) do
-      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Parent.CFrame
-      wait(.5)
+  while AutoOrb and wait(1) do
+    for i,v in ipairs(game.Workspace.Map.Stages.Boosts:FindFirstChild(game.Players.LocalPlayer.leaderstats.WORLD.Value):GetChildren()) do
+      if v["0"]:FindFirstChild("TouchInterest") then
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v["0"].CFrame
+        wait(.375)
+      end
     end
   end
 end)

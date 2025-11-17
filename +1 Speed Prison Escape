@@ -56,4 +56,16 @@ spawn(function()
   end
 end)
 elseif game.PlaceId == 102901379325878 then
+local remote = game.ReplicatedStorage.Remotes.RemoteFunctions
+spawn(function()
+  function work()
+    game.Players.LocalPlayer.PlayerGui.PlayerWinGui.Enabled = false
+    remote.PlayerRebirth:InvokeServer()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-79, 15, 7770)
+    remote.GetWinRewards:InvokeServer()
+  end
+  while task.wait() do
+    coroutine.wrap(work)()
+  end
+end)
 end

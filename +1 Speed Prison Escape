@@ -55,4 +55,5 @@ spawn(function()
     coroutine.wrap(work)()
   end
 end)
+elseif game.PlaceId == 102901379325878 then
 end

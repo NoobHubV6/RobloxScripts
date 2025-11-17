@@ -35,7 +35,7 @@ spawn(function()
   function work()
     game.Players.LocalPlayer.PlayerGui.PlayerWinGui.Enabled = false
     remote.PlayerRebirth:InvokeServer()
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-79, 15, 7770)
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-79, 17, 7770)
     remote.GetWinRewards:InvokeServer()
   end
   while task.wait() do
@@ -61,7 +61,7 @@ spawn(function()
   function work()
     game.Players.LocalPlayer.PlayerGui.PlayerWinGui.Enabled = false
     remote.PlayerRebirth:InvokeServer()
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-79, 15, 7770)
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-230, 155, 15222)
     remote.GetWinRewards:InvokeServer()
   end
   while task.wait() do

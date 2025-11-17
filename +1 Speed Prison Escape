@@ -42,7 +42,7 @@ spawn(function()
     coroutine.wrap(work)()
   end
 end)
-else
+elseif game.PlaceId == 98360611407106 then
 local remote = game.ReplicatedStorage.Remotes.RemoteFunctions
 spawn(function()
   function work()

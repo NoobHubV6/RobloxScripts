@@ -1,6 +1,6 @@
 game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(child)
   if child.Name == "ErrorPrompt" then
-    game.TeleportService:Teleport(game.PlaceId)
+    game:GetService("TeleportService"):Teleport(game.PlaceId)
   end
 end)
 if game.PlaceId == 73934517857372 then

@@ -1,14 +1,23 @@
 local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
 local Window = lib:NewWindow("Lift Everything")
 local Main = Window:NewSection("Main")
-local fastTrain = false
+local fastTrain, autoRebirth
 Main:CreateToggle("Fast Train", function(state)
-  if state then
-    fastTrain = true
-    repeat task.wait()
+  fastTrain = state
+end)
+Main:CreateToggle("Auto Rebirth", function(state)
+  autoRebirth = state
+end)
+spawn(function()
+  task0 = function()
+    if fastTrain then
       game.ReplicatedStorage.BLINK_RELIABLE_REMOTE:FireServer(buffer.fromstring("\v"), {})
-    until not fastTrain
-  elseif not state then
-    fastTrain = false
+    end
+    if autoRebirth then
+      game.ReplicatedStorage.BLINK_RELIABLE_REMOTE:FireServer(buffer.fromstring("\003"), {})
+    end
+  end
+  while task.wait() do
+    pcall(task0)
   end
 end)

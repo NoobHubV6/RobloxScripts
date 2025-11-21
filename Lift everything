@@ -14,7 +14,7 @@ spawn(function()
       game.ReplicatedStorage.BLINK_RELIABLE_REMOTE:FireServer(buffer.fromstring("\v"), {})
     end
     if autoRebirth then
-      game.ReplicatedStorage.BLINK_RELIABLE_REMOTE:FireServer(buffer.fromstring("\003"), {})
+      game.ReplicatedStorage.BLINK_RELIABLE_REMOTE:FireServer(buffer.fromstring("\002"), {})
     end
   end
   while task.wait() do

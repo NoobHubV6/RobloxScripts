@@ -1,0 +1,14 @@
+local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
+local Window = lib:NewWindow("Lift Everything")
+local Main = Window:NewSection("Main")
+local fastTrain
+Main:CreateToggle("Auto Punch", function(state)
+  if state then
+    fastTrain = game.RunService.RenderStepped:Connect(function()
+      game.ReplicatedStorage.BLINK_RELIABLE_REMOTE:FireServer(buffer.fromstring("\v"), {})
+    end)
+  elseif not state then
+    fastTrain:Disconnect()
+    fastTrain = nil
+  end
+end)

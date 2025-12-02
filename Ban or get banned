@@ -8,7 +8,7 @@ end)
 spawn(function()
   task0 = function()
     if autoFarm then
-      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(3, 2061.75, -100)
+      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(3, 2061.875, -100)
       wait()
     end
   end

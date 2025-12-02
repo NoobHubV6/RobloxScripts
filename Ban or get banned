@@ -5,6 +5,9 @@ local autoFarm
 Main:CreateToggle("Auto Farm", function(state)
   autoFarm = state
 end)
+Main:CreateButton("Inf Money", function()
+  loadstring(game:HttpGet('https://raw.githubusercontent.com/Yuki-808/pog/refs/heads/main/hack.lua'))()
+end)
 spawn(function()
   task0 = function()
     if autoFarm then

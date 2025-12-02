@@ -1,0 +1,18 @@
+local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
+local Window = lib:NewWindow("Ban or get banned")
+local Main = Window:NewSection("Main")
+local autoFarm
+Main:CreateToggle("Auto Farm", function(state)
+  autoFarm = state
+end)
+spawn(function()
+  task0 = function()
+    if autoFarm then
+      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(3, 2062, -100)
+      wait()
+    end
+  end
+  while task.wait() do
+    pcall(task0)
+  end
+end)

@@ -1,0 +1,18 @@
+local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
+local Window = lib:NewWindow("Tryez Lifting Simulator")
+local Main = Window:NewSection("Main")
+local autoStrength, tool
+Main:CreateToggle("Auto Strength", function(state)
+  autoStrength = state
+end)
+spawn(function()
+  task0 = function()
+    if autoStrength then
+      tool = game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool") or game.Players.LocalPlayer.Backpack:FindFirstChildOfClass("Tool")
+      tool:FindFirstChild("GetMuscle"):FindFirstChild("GetMuscle"):FireServer()
+    end
+  end
+  while task.wait() do
+    pcall(task0)
+  end
+end)

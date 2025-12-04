@@ -1,0 +1,32 @@
+local lib = loadstring(Game:HttpGet("https://raw.github.com/NoobHubV1/RobloxScripts/main/Arceus%20X%20V3%20Lib.lua"))()
+local autoParry, range = nil, 35
+local Button
+lib:SetTitle("Phantom Ball")
+lib:AddToggle("Auto Parry", function(state)
+  autoParry = state
+end)
+Button = lib:AddButton("Range 35", function()
+  --nothing
+end)
+lib:AddButton("Range +1", function()
+  range = range + 1
+  Button:FindFirstChild("Name").Text = "Range "..range
+end)
+lib:AddButton("Range -1", function()
+  if range > 1 then
+    range = range - 1
+    Button:FindFirstChild("Name").Text = "Range "..range
+  end
+end)
+spawn(function()
+  task0 = function()
+    if autoParry then
+      if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position-workspace.GameBall.Position).Magnitude <= range and game.Players.LocalPlayer.Character:FindFirstChild("Highlight") then
+        game.ReplicatedStorage.TS.GeneratedNetworkRemotes:FindFirstChild("RE_4.6848415795802784e+76"):FireServer(2.933813859058389e+76)
+      end
+    end
+  end
+  while task.wait() do
+    pcall(task0)
+  end
+end)

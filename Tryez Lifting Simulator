@@ -8,8 +8,10 @@ end)
 spawn(function()
   task0 = function()
     if autoStrength then
-      tool = game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool") or game.Players.LocalPlayer.Backpack:FindFirstChildOfClass("Tool")
-      tool:FindFirstChild("GetMuscle"):FindFirstChild("GetMuscle"):FireServer()
+      for i = 1,2 do
+        tool = game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool") or game.Players.LocalPlayer.Backpack:FindFirstChildOfClass("Tool")
+        tool.GetMuscle.GetMuscle:FireServer()
+      end
     end
   end
   while task.wait() do

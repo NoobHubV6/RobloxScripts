@@ -1,1 +1,8 @@
 --game.ReplicatedStorage.RemoteEvents.ChangeIQ:FireServer(1)
+local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
+local Window = lib:NewWindow("IQ Test")
+local Main = Window:NewSection("Main")
+local iq
+Main:CreateButton("Max IQ", function(state)
+  iq = true
+end)

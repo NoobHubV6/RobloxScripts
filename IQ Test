@@ -1,15 +1,18 @@
 local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
 local Window = lib:NewWindow("IQ Test")
 local Main = Window:NewSection("Main")
-local iq, autoIQ = 0, nil
-Main:CreateToggle("Auto IQ", function(state)
-  autoIQ = state
+local iq, MaxIQ = 0, nil
+Main:CreateButton("Max IQ", function()
+  MaxIQ = true
 end)
 spawn(function()
   task0 = function()
-    if autoIQ then
+    if MaxIQ then
       iq = game.Players.LocalPlayer:FindFirstChild("leaderstats"):FindFirstChild("IQ").Value + 1
       game.ReplicatedStorage.RemoteEvents.ChangeIQ:FireServer(iq)
+      if game.Players.LocalPlayer:FindFirstChild("leaderstats"):FindFirstChild("IQ").Value == 200 then
+        game:GetService("TeleportService"):Teleport(game.PlaceId)
+      end
     end
   end
   while task.wait() do

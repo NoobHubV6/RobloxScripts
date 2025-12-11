@@ -1,0 +1,23 @@
+local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
+local Window = lib:NewWindow("Bicep Simulator")
+local Main = Window:NewSection("Main")
+local autoClick, autoRebirth
+Main:CreateToggle("Auto Click", function(state)
+  autoClick = state
+end)
+Main:CreateToggle("Auto Rebirth", function(state)
+  autoRebirth = state
+end)
+spawn(function()
+  task0 = function()
+    if autoClick then
+      --nothing
+    end
+    if autoRebirth then
+      game.ReplicatedStorage.Remotes.Events.RequestRebirth:FireServer()
+    end
+  end
+  while task.wait() do
+    pcall(task0)
+  end
+end)

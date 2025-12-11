@@ -17,6 +17,9 @@ spawn(function()
     if x10Power then
       local PowerValue = game:GetService("Players").LocalPlayer.leaderstats.Power.Value * 9
       game.ReplicatedStorage.Remotes.Client:InvokeServer("ClickStat", PowerValue)
+      if game:GetService("Players").LocalPlayer.leaderstats.Power.Value == 0 or game:GetService("Players").LocalPlayer.leaderstats.Power.Value <= 0 then
+        game.ReplicatedStorage.Remotes.Client:InvokeServer("ClickStat", 10)
+      end
       wait(1)
     end
     if autoWin then
@@ -25,5 +28,15 @@ spawn(function()
   end
   while task.wait() do
     pcall(task0)
+  end
+end)
+spawn(function()
+  task1 = function()
+    if autoWin then
+      game.ReplicatedStorage.Remotes.Client:InvokeServer("Wins")
+    end
+  end
+  while task.wait() do
+    pcall(task1)
   end
 end)

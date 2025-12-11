@@ -1,10 +1,10 @@
 local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
 local Window = lib:NewWindow("Slap Power Simulator")
 local Main = Window:NewSection("Main")
-local x2Power
+local x10Power
 local autoWin
-Main:CreateToggle("x2 Power/second", function(state)
-  x2Power = state
+Main:CreateToggle("x10 Power/second", function(state)
+  x10Power = state
 end)
 Main:CreateButton("Reset Power", function()
   game.ReplicatedStorage.Remotes.Client:InvokeServer("ClickStat", -game:GetService("Players").LocalPlayer.leaderstats.Power.Value)
@@ -14,8 +14,9 @@ Main:CreateToggle("Auto Win", function(state)
 end)
 spawn(function()
   task0 = function()
-    if x2Power then
-      game.ReplicatedStorage.Remotes.Client:InvokeServer("ClickStat", game:GetService("Players").LocalPlayer.leaderstats.Power.Value)
+    if x10Power then
+      local PowerValue = game:GetService("Players").LocalPlayer.leaderstats.Power.Value * 9
+      game.ReplicatedStorage.Remotes.Client:InvokeServer("ClickStat", PowerValue)
       wait(1)
     end
     if autoWin then

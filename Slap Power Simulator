@@ -5,10 +5,13 @@ local Power, x2Power
 Main:CreateToggle("x2 Power/second", function(state)
   x2Power = state
 end)
+Main:CreateButton("Reset Power", function()
+  game.ReplicatedStorage.Remotes.Client:InvokeServer("ClickStat", -1)
+end)
 spawn(function()
   task0 = function()
     if x2Power then
-      --nothing
+      game.ReplicatedStorage.Remotes.Client:InvokeServer("ClickStat", 1)
       wait(1)
     end
   end
@@ -16,3 +19,4 @@ spawn(function()
     pcall(task0)
   end
 end)
+--Wait to complete script

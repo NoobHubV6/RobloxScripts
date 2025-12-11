@@ -1,14 +1,20 @@
 local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
 local Window = lib:NewWindow("Gigachad Simulator")
 local Main = Window:NewSection("Main")
-local autoLift
+local autoLift, autoRebirth
 Main:CreateToggle("Auto Lift", function(state)
   autoLift = state
+end)
+Main:CreateToggle("Auto Rebirth", function(state)
+  autoRebirth = state
 end)
 spawn(function()
   task0 = function()
     if autoLift then
       game.ReplicatedStorage.Events.Gameplay.Lift:InvokeServer()
+    end
+    if autoRebirth then
+      game.ReplicatedStorage.Events.Other.Rebirth:InvokeServer()
     end
   end
   while task.wait() do

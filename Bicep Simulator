@@ -11,7 +11,7 @@ end)
 spawn(function()
   task0 = function()
     if autoClick then
-      --nothing
+      game.ReplicatedStorage.Remotes.Events.Click:FireServer()
     end
     if autoRebirth then
       game.ReplicatedStorage.Remotes.Events.RequestRebirth:FireServer()

@@ -79,7 +79,7 @@ end
 function t(Title, Text, Time)
     game:FindService("StarterGui"):SetCore("SendNotification",{Title=Title,Text=Text,Icon="",Duration=Time,})
 end
-function createCircle()
+function createVisualizer()
     visual = Instance.new("Part",workspace)
     visual.Name = "visualizer"
     visual.Material = "ForceField"
@@ -197,6 +197,6 @@ spawn(function()
      while task.wait() do
             pcall(task3)
      end
-end
+end)
 Notify("Anime Ball", 'Script Loaded', 10)
 Window:SelectTab(1)

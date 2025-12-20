@@ -79,15 +79,16 @@ end
 function t(Title, Text, Time)
     game:FindService("StarterGui"):SetCore("SendNotification",{Title=Title,Text=Text,Icon="",Duration=Time,})
 end
-function createVisualizer()
+function createCircle()
     visual = Instance.new("Part",workspace)
     visual.Name = "visualizer"
     visual.Material = "ForceField"
-    visual.Transparency = 0
+    visual.Transparency = 0.75
     visual.Size = Vector3.new(10, 0.4, 10)
     visual.CanCollide = false
     visual.Anchored = true
     visual.Shape = "Ball"
+    visual.CastShadow = false
 end
 
 function Notify(title, content, duration)
@@ -169,9 +170,6 @@ spawn(function()
          if visual then
                 visual.Color = Color3.fromHSV(tick() % (10/1.5) / (10/1.5), 1, 1)
          end
-         if SpamParry then
-                game.ReplicatedStorage.Framework.RemoteFunction:InvokeServer("SwordService","Block",{0})
-         end
      end
      while task.wait() do
          pcall(task1)
@@ -179,16 +177,26 @@ spawn(function()
 end)
 spawn(function()
      task2 = function()
-         local Ball = GetBall()
-         local speed = Ball.LinearVelocity.VectorVelocity.Magnitude
+         local Ball, block = GetBall(), ParryDistance
+         local speed = Ball.LinearVelocity.VectorVelocity.Magnitude * block
          if AutoParry and ShowVisualizer then
-                visual.CFrame = GetRoot().CFrame
                 visual.Size = Vector3.new(speed, speed, speed)
+                visual.CFrame = GetRoot().CFrame
          end
      end
      while task.wait() do
          pcall(task2)
      end
 end)
+spawn(function()
+     task3 = function()
+            if SpamParry then
+                   game.ReplicatedStorage.Framework.RemoteFunction:InvokeServer("SwordService","Block",{0})
+            end
+     end
+     while task.wait() do
+            pcall(task3)
+     end
+end
 Notify("Anime Ball", 'Script Loaded', 10)
 Window:SelectTab(1)

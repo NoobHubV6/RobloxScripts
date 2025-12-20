@@ -1,6 +1,3 @@
-if not game:IsLoaded() then
-       game.Loaded:Wait()
-end
 local Fluent = loadstring(game:HttpGet("https://github.com/NoobHubV4/RobloxScripts/blob/main/Fluent/Lib?raw=true"))()
 local Window = Fluent:CreateWindow({Title = "Anime Ball",SubTitle = "v1.2",TabWidth = 100,Size = UDim2.fromOffset(480, 300),Acrylic = false,Theme = "Amethyst",MinimizeKey = Enum.KeyCode.RightShift})
 local Tabs = {Home = Window:AddTab({ Title = "Home", Icon = "" }),Combat = Window:AddTab({ Title = "Combat", Icon = "" }),}
@@ -82,11 +79,11 @@ end
 function t(Title, Text, Time)
     game:FindService("StarterGui"):SetCore("SendNotification",{Title=Title,Text=Text,Icon="",Duration=Time,})
 end
-function createCircle()
+function createVisualizer()
     visual = Instance.new("Part",workspace)
     visual.Name = "visualizer"
     visual.Material = "ForceField"
-    visual.Transparency = 0.75
+    visual.Transparency = 0
     visual.Size = Vector3.new(10, 0.4, 10)
     visual.CanCollide = false
     visual.Anchored = true

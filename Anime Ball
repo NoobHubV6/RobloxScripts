@@ -68,18 +68,6 @@ function GetBall()
   end
 end
 
-function GetCharacter(root)
-  if root ~= "Humanoid" then
-    for i,v in ipairs(game.Players.LocalPlayer.Character:GetChildren()) do
-      if v:IsA("BasePart") and v.Name == root then
-        return v
-      end
-    end
-  else
-    return Player.Character.Humanoid
-  end
-end
-
 function t(Title, Text, Time)
     game:FindService("StarterGui"):SetCore("SendNotification",{Title=Title,Text=Text,Icon="",Duration=Time,})
 end
@@ -135,7 +123,7 @@ workspace.Balls.ChildAdded:Connect(function(child)
 end)
 spawn(function()
     function work()
-        if Ball:GetAttribute("Target") == Player.Name and not Parried and (GetCharacter("HumanoidRootPart").Position - GetBall().Position).Magnitude / GetBall().LinearVelocity.VectorVelocity.Magnitude <= block and AutoParry then
+        if Ball:GetAttribute("Target") == Player.Name and not Parried and (Player.Character.HumanoidRootPart.Position - GetBall().Position).Magnitude / GetBall().LinearVelocity.VectorVelocity.Magnitude <= block and AutoParry then
             game.ReplicatedStorage.Framework.RemoteFunction:InvokeServer("SwordService","Block",{0})
             Parried = true; Cooldown = tick()
             while task.wait() do
@@ -167,12 +155,13 @@ spawn(function()
 end)
 spawn(function()
      function task1()
-         if GetBall() and GetCharacter("Humanoid") and AutoMove then
-                GetCharacter("Humanoid"):MoveTo(GetBall().Position)
+         local humanoid = Player.Character.Humanoid
+         if GetBall() and humanoid and AutoMove then
+                humanoid:MoveTo(GetBall().Position)
          end
          if visual then
-                visual.Color = Color3.fromHSV(tick() % (10/1.5) / (10/1.5), 1, 1)
-                visual.CFrame = GetCharacter("HumanoidRootPart").CFrame
+                visual.Color = Color3.fromHSV(tick() % (10/1) / (10/1), 1, 1)
+                visual.CFrame = Player.Character.HumanoidRootPart.CFrame
          end
      end
      while task.wait() do

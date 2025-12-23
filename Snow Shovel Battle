@@ -1,1 +1,15 @@
---game.ReplicatedStorage.Event.Train:FireServer()
+local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
+local Window = lib:NewWindow("Snow Shovel Battle")
+local Main = Window:NewSection("Main")
+Main:CreateTextbox("Give Strength", function(value)
+  strength = tonumber(value)
+  if strength then
+    game.ReplicatedStorage.Event.Train:FireServer(strength)
+  end
+end)
+Main:CreateTextbox("Give Money", function(value)
+  money = tonumber(value)
+  if money then
+    game.ReplicatedStorage.Event.WinGain:FireServer(money)
+  end
+end)

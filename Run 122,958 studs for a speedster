@@ -12,6 +12,9 @@ spawn(function()
       game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = workspace.Stage1.WinPromptPart.CFrame
       wait(.25)
       fireproximityprompt(workspace.Stage1.WinPromptPart:FindFirstChild("ProximityPrompt"))
+      wait(.25)
+      game.ReplicatedStorage.RebirthRequest:InvokeServer()
+      wait(.25)
     end
   end
   while task.wait() do

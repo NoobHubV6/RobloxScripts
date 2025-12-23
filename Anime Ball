@@ -10,7 +10,7 @@ local Toggle2 = Instance.new("TextButton", ScreenGui)
 local UICorner = Instance.new("UICorner", Toggle2)
 local SpamParry = false
 local ParryDistance, ShowVisualizer
-local visual
+local visual, block
 
 ScreenGui.Name = "gui"
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
@@ -68,11 +68,15 @@ function GetBall()
   end
 end
 
-function GetRoot()
-  for i,v in ipairs(game.Players.LocalPlayer.Character:GetChildren()) do
-    if v:IsA("BasePart") and v.Name == "HumanoidRootPart" then
-      return v
+function GetCharacter(root)
+  if root ~= "Humanoid" then
+    for i,v in ipairs(game.Players.LocalPlayer.Character:GetChildren()) do
+      if v:IsA("BasePart") and v.Name == root then
+        return v
+      end
     end
+  else
+    return Player.Character.Humanoid
   end
 end
 
@@ -131,8 +135,7 @@ workspace.Balls.ChildAdded:Connect(function(child)
 end)
 spawn(function()
     function work()
-        local Ball, HRP, block = GetBall(), GetRoot(), ParryDistance
-        if Ball:GetAttribute("Target") == Player.Name and not Parried and (HRP.Position - Ball.Position).Magnitude / Ball.LinearVelocity.VectorVelocity.Magnitude <= block and AutoParry then
+        if Ball:GetAttribute("Target") == Player.Name and not Parried and (GetCharacter("HumanoidRootPart").Position - GetBall().Position).Magnitude / GetBall().LinearVelocity.VectorVelocity.Magnitude <= block and AutoParry then
             game.ReplicatedStorage.Framework.RemoteFunction:InvokeServer("SwordService","Block",{0})
             Parried = true; Cooldown = tick()
             while task.wait() do
@@ -156,6 +159,7 @@ spawn(function()
         elseif not ShowVisualizer and visual then
             visual:Destroy(); visual = nil
         end
+        block = ParryDistance
     end
     while task.wait() do
         pcall(task0)
@@ -163,12 +167,12 @@ spawn(function()
 end)
 spawn(function()
      function task1()
-         local Ball, humanoid = GetBall(), Player.Character.Humanoid
-         if Ball and humanoid and AutoMove then
-                humanoid:MoveTo(Ball.Position)
+         if GetBall() and GetCharacter("Humanoid") and AutoMove then
+                GetCharacter("Humanoid"):MoveTo(GetBall().Position)
          end
          if visual then
                 visual.Color = Color3.fromHSV(tick() % (10/1.5) / (10/1.5), 1, 1)
+                visual.CFrame = GetCharacter("HumanoidRootPart").CFrame
          end
      end
      while task.wait() do
@@ -177,11 +181,9 @@ spawn(function()
 end)
 spawn(function()
      task2 = function()
-         local Ball, block = GetBall(), ParryDistance
-         local speed = Ball.LinearVelocity.VectorVelocity.Magnitude * block
+         local speed = GetBall().LinearVelocity.VectorVelocity.Magnitude * block
          if AutoParry and ShowVisualizer then
                 visual.Size = Vector3.new(speed, speed, speed)
-                visual.CFrame = GetRoot().CFrame
          end
      end
      while task.wait() do

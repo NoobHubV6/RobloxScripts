@@ -1,20 +1,22 @@
---workspace.Stage1.WinPromptPart
 local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
 local Window = lib:NewWindow("Run 122,958 studs for a speedster")
 local Main = Window:NewSection("Main")
-local autoWin
+local autoWin, stage = 1
+Main:CreateDropdown("Map", {"1","2","3","4"}, 1, function(value)
+  stage = value
+end)
 Main:CreateToggle("Auto Win", function(state)
   autoWin = state
 end)
 spawn(function()
   task0 = function()
     if autoWin then
-      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = workspace.Stage1.WinPromptPart.CFrame
+      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = workspace:FindFirstChild("Stage"..stage).WinPromptPart.CFrame
       wait(.25)
-      fireproximityprompt(workspace.Stage1.WinPromptPart:FindFirstChild("ProximityPrompt"))
-      wait(.25)
+      fireproximityprompt(workspace:FindFirstChild("Stage"..stage).WinPromptPart:FindFirstChild("ProximityPrompt"))
+      wait(.2)
       game.ReplicatedStorage.RebirthRequest:InvokeServer()
-      wait(.25)
+      wait(.5)
     end
   end
   while task.wait() do

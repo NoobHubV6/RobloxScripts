@@ -2,7 +2,6 @@ local Fluent = loadstring(game:HttpGet("https://github.com/NoobHubV4/RobloxScrip
 local Window = Fluent:CreateWindow({Title = "Anime Ball",SubTitle = "v1.2",TabWidth = 100,Size = UDim2.fromOffset(480, 300),Acrylic = false,Theme = "Amethyst",MinimizeKey = Enum.KeyCode.RightShift})
 local Tabs = {Home = Window:AddTab({ Title = "Home", Icon = "" }),Combat = Window:AddTab({ Title = "Combat", Icon = "" }),}
 local Player = game.Players.localPlayer
-local VIM = game:GetService("VirtualInputManager") or game:FindFirstDescendant("VirtualInputManager")
 local AutoMove, AutoParry, Cooldown
 local ScreenGui = Instance.new("ScreenGui", game.CoreGui)
 local Toggle = Instance.new("TextButton", ScreenGui)
@@ -123,14 +122,14 @@ workspace.Balls.ChildAdded:Connect(function(child)
 end)
 spawn(function()
     function work()
-        if Ball:GetAttribute("Target") == Player.Name and not Parried and (Player.Character.HumanoidRootPart.Position - GetBall().Position).Magnitude / GetBall().LinearVelocity.VectorVelocity.Magnitude <= block and AutoParry then
+        if GetBall():GetAttribute("Target") == Player.Name and not Parried and (Player.Character.HumanoidRootPart.Position - GetBall().Position).Magnitude / GetBall().LinearVelocity.VectorVelocity.Magnitude <= block and AutoParry then
             game.ReplicatedStorage.Framework.RemoteFunction:InvokeServer("SwordService","Block",{0})
             Parried = true; Cooldown = tick()
             while task.wait() do
                 if not Parried then
                     break
                 end
-                if tick() - Cooldown >= 2 and Ball:GetAttribute("Target") == Player.Name then
+                if tick() - Cooldown >= 2 and GetBall():GetAttribute("Target") == Player.Name then
                     Parried = false
                 end
             end
@@ -147,7 +146,6 @@ spawn(function()
         elseif not ShowVisualizer and visual then
             visual:Destroy(); visual = nil
         end
-        block = ParryDistance
     end
     while task.wait() do
         pcall(task0)
@@ -163,6 +161,7 @@ spawn(function()
                 visual.Color = Color3.fromHSV(tick() % (10/1) / (10/1), 1, 1)
                 visual.CFrame = Player.Character.HumanoidRootPart.CFrame
          end
+         block = ParryDistance
      end
      while task.wait() do
          pcall(task1)

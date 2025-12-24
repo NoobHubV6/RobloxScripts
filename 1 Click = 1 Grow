@@ -1,1 +1,23 @@
---game:GetService("ReplicatedStorage"):WaitForChild("NetworkRemoteObjects"):WaitForChild("ClientEvent"):FireServer({channel = "rebirth_request", args = {}})
+local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
+local Window = lib:NewWindow("1 Click = 1 Grow")
+local Main = Window:NewSection("Main")
+local autoClick, autoRebirth
+Main:CreateToggle("Auto Click", function(state)
+  autoClick = state
+end)
+Main:CreateToggle("Auto Rebirth", function(state)
+  autoRebirth = state
+end)
+spawn(function()
+  task0 = function()
+    if autoClick then
+      game.ReplicatedStorage.NetworkRemoteObjects.ClientEvent:FireServer({channel = "click", args = {}})
+    end
+    if autoRebirth then
+      game.ReplicatedStorage.NetworkRemoteObjects.ClientEvent:FireServer({channel = "rebirth_request", args = {}})
+    end
+  end
+  while task.wait() do
+    pcall(task0)
+  end
+end)

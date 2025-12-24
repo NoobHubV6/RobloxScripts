@@ -1,0 +1,24 @@
+local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
+local Window = lib:NewWindow("Rabbit Simulator 2")
+local Main = Window:NewSection("Main")
+local autoCarrot, autoRebirth
+Main:CreateToggle("Auto Carrot", function(state)
+  autoCarrot = state
+end)
+Main:CreateToggle("Auto Rebirth", function(state)
+  autoRebirth = state
+end)
+spawn(function()
+  task0 = function()
+    if autoCarrot then
+      tool = game.Players.LocalPlayer.Character:FindFirstChild("Carrot") or game.Players.LocalPlayer.Backpack:FindFirstChild("Carrot")
+      tool.E:FireServer()
+    end
+    if autoRebirth then
+      game.ReplicatedStorage.RebirthMe:FireServer()
+    end
+  end
+  while task.wait() do
+    pcall(task0)
+  end
+end)

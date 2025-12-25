@@ -1,0 +1,10 @@
+local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
+local Window = lib:NewWindow("Eat to grow giant")
+local Main = Window:NewSection("Main")
+Main:CreateToggle("Fast Train", function(state)
+  if state then
+    game.ReplicatedStorage.Events.AutoEatFastOn:FireServer()
+  elseif not state
+    game.ReplicatedStorage.Events.AutoEatFastOff:FireServer()
+  end
+end)

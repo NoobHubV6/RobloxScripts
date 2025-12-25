@@ -27,7 +27,7 @@ Toggle.TextScaled = true
 Toggle.TextSize = 15.000
 Toggle.TextStrokeTransparency = 0.000
 Toggle.TextWrapped = true
-Toggle.Draggable = true
+Toggle.Draggable = false
 Toggle.Visible = false
 local script = Instance.new("LocalScript", Toggle)
 Toggle.MouseButton1Click:Connect(function()
@@ -128,7 +128,7 @@ end)
 spawn(function()
     function work()
         if GetBall():GetAttribute("Target") == Player.Name and not Parried and (Player.Character.HumanoidRootPart.Position - GetBall().Position).Magnitude / GetBall().LinearVelocity.VectorVelocity.Magnitude <= block and AutoParry then
-            if Method == "Click" then game.ReplicatedStorage.Framework.RemoteFunction:InvokeServer("SwordService","Block",{0}); elseif Method == "Keypress" then VIM:SendMouseButtonEvent(0, 0, 0, true, game, false); end
+            if Method == "Click" then game.ReplicatedStorage.Framework.RemoteFunction:InvokeServer("SwordService","Block",{0}); elseif Method == "Keypress" then VIM:SendKeyEvent(true, "F", false, game); end
             Parried = true; Cooldown = tick()
             while task.wait() do
                 if not Parried then
@@ -186,7 +186,7 @@ end)
 spawn(function()
      task3 = function()
             if SpamParry then
-                   if Method == "Click" then game.ReplicatedStorage.Framework.RemoteFunction:InvokeServer("SwordService","Block",{0}); elseif Method == "Keypress" then VIM:SendMouseButtonEvent(0, 0, 0, true, game, false); end
+                   if Method == "Click" then game.ReplicatedStorage.Framework.RemoteFunction:InvokeServer("SwordService","Block",{0}); elseif Method == "Keypress" then VIM:SendKeyEvent(true, "F", false, game); end
             end
      end
      while task.wait() do

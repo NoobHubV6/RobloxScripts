@@ -4,7 +4,7 @@ local Main = Window:NewSection("Main")
 Main:CreateToggle("Fast Train", function(state)
   if state then
     game.ReplicatedStorage.Events.AutoEatFastOn:FireServer()
-  elseif not state
+  elseif not state then
     game.ReplicatedStorage.Events.AutoEatFastOff:FireServer()
   end
 end)

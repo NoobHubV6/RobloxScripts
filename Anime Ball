@@ -3,13 +3,14 @@ local Window = Fluent:CreateWindow({Title = "Anime Ball",SubTitle = "v1.2",TabWi
 local Tabs = {Home = Window:AddTab({ Title = "Home", Icon = "" }),Combat = Window:AddTab({ Title = "Combat", Icon = "" }),}
 local Player = game.Players.localPlayer
 local AutoMove, AutoParry, Cooldown
+local VIM = game:GetService("VirtualInputManager") or game:FindFirstDescendant("VirtualInputManager")
 local ScreenGui = Instance.new("ScreenGui", game.CoreGui)
 local Toggle = Instance.new("TextButton", ScreenGui)
 local Toggle2 = Instance.new("TextButton", ScreenGui)
 local UICorner = Instance.new("UICorner", Toggle2)
 local SpamParry = false
 local ParryDistance, ShowVisualizer
-local visual, block
+local visual, block, Method
 
 ScreenGui.Name = "gui"
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
@@ -94,6 +95,7 @@ local Options = Fluent.Options
 do
        Tabs.Home:AddParagraph({Title = "Credits",Content = "Credits by NoobHubV4"})
        Tabs.Home:AddButton({Title = "Copy Script",Description = "",Callback = function() setclipboard("https://github.com/NoobHubV4/RobloxScripts") end})
+       local select = Tabs.Combat:AddDropdown("Dropdown", {Title = "Parry Method", Values = {"Keypress","Click"}, Multi = false, Default = 2}); select:SetValue("Click")
        local autoblock = Tabs.Combat:AddToggle("State1", {Title = "Auto Parry", Default = false })
        local manualspam = Tabs.Combat:AddToggle("State2", {Title = "Manual Spam", Default = false })
        local automove = Tabs.Combat:AddToggle("State3", {Title = "Follow Ball", Default = false })
@@ -114,6 +116,9 @@ do
        Show:OnChanged(function()
               ShowVisualizer = Options.State4.Value; Notify('NoobHubV4 Hub', 'Show Visualizer '..tostring(showCircle))
        end)
+       select:OnChanged(function(Value)
+              Method = Value; Notify("NoobHubV4 Hub", "Parry Method set "..Value)
+       end)
 end
 workspace.Balls.ChildAdded:Connect(function(child)
        child:GetAttributeChangedSignal("Target"):Connect(function()
@@ -123,7 +128,7 @@ end)
 spawn(function()
     function work()
         if GetBall():GetAttribute("Target") == Player.Name and not Parried and (Player.Character.HumanoidRootPart.Position - GetBall().Position).Magnitude / GetBall().LinearVelocity.VectorVelocity.Magnitude <= block and AutoParry then
-            game.ReplicatedStorage.Framework.RemoteFunction:InvokeServer("SwordService","Block",{0})
+            if Method == "Click" then game.ReplicatedStorage.Framework.RemoteFunction:InvokeServer("SwordService","Block",{0}); elseif Method == "Keypress" then VIM:SendKeyEvent(true, "F", false, game); end
             Parried = true; Cooldown = tick()
             while task.wait() do
                 if not Parried then
@@ -181,7 +186,7 @@ end)
 spawn(function()
      task3 = function()
             if SpamParry then
-                   game.ReplicatedStorage.Framework.RemoteFunction:InvokeServer("SwordService","Block",{0})
+                   if Method == "Click" then game.ReplicatedStorage.Framework.RemoteFunction:InvokeServer("SwordService","Block",{0}); elseif Method == "Keypress" then VIM:SendKeyEvent(true, "F", false, game); end
             end
      end
      while task.wait() do

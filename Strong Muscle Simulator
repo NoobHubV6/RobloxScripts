@@ -1,1 +1,17 @@
---game.ReplicatedStorage.Packages.Network.RemoteEventStorage.Training:FireServer()
+local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
+local Window = lib:NewWindow("Strong Muscle Simulator")
+local Main = Window:NewSection("Main")
+local fastTrain
+Main:CreateToggle("Fast Train", function(state)
+  fastTrain = state
+end)
+spawn(function()
+  task0 = function()
+    if fastTrain then
+      game.ReplicatedStorage.Packages.Network.RemoteEventStorage.Training:FireServer()
+    end
+  end
+  while task.wait() do
+    pcall(task0)
+  end
+end)

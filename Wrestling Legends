@@ -1,0 +1,17 @@
+local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
+local Window = lib:NewWindow("Wrestling Legends")
+local Main = Window:NewSection("Main")
+local fastTrain
+Main:CreateToggle("Fast Train", function(state)
+  fastTrain = state
+end)
+spawn(function()
+  task0 = function()
+    if fastTrain then
+      game.ReplicatedStorage.WeightSystem:FireServer(true)
+    end
+  end
+  while task.wait() do
+    pcall(task0)
+  end
+end)

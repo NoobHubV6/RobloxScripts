@@ -1,0 +1,25 @@
+local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
+local Window = lib:NewWindow("Train Your Aura")
+local Main = Window:NewSection("Main")
+local autoPower, autoMoney
+Main:CreateToggle("Auto Power", function(state)
+  autoPower = state
+end)
+Main:CreateToggle("Auto Money", function(state)
+  autoMoney = state
+end)
+spawn(function()
+  task0 = function()
+    if autoPower then
+      game.ReplicatedStorage.Remotes.AddPower:FireServer()
+    end
+    if autoMoney then
+      for i, v in ipairs(workspace.Spawners.Cash:GetChildren()) do
+        v.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+      end
+    end
+  end
+  while task.wait() do
+    pcall(task0)
+  end
+end)

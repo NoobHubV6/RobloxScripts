@@ -1,0 +1,9 @@
+local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
+local Window = lib:NewWindow("How long can you fart")
+local Main = Window:NewSection("Main")
+Main:CreateTextbox("Set Power", function(value) 
+  power = tonumber(value)
+  if power then
+    game.Players.LocalPlayer.leaderstats.FartPower.Value = power
+  end
+end)

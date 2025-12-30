@@ -1,0 +1,9 @@
+local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
+local Window = lib:NewWindow("RNG For Speed")
+local Main = Window:NewSection("Main")
+Main:CreateTextbox("Give Speed", function(value)
+  speed = tonumber(value)
+  if speed then
+    game.ReplicatedStorage.AddSpeed:FireServer(speed)
+  end
+end)

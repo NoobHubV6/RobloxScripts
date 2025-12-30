@@ -12,11 +12,8 @@ spawn(function()
   task0 = function()
     if autoWin then
       game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = workspace:FindFirstChild("Stage"..stage).WinPromptPart.CFrame
-      wait(.2)
       fireproximityprompt(workspace:FindFirstChild("Stage"..stage).WinPromptPart:FindFirstChild("ProximityPrompt"))
-      wait(.175)
       game.ReplicatedStorage.RebirthRequest:InvokeServer()
-      wait(.4625)
     end
   end
   while task.wait() do

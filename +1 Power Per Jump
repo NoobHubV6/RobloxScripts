@@ -7,6 +7,9 @@ Main:CreateToggle("Auto Win", function(state)
 end)
 Main:CreateToggle("Auto Jump", function(state)
   autoJump = state
+  if not autoJump then
+    game.ReplicatedStorage.Modules.Packages._Index:FindFirstChild("sleitnick_net@0.2.0").net:FindFirstChild("RE/Tramp"):FireServer(false, "Default")
+  end
 end)
 spawn(function()
   task0 = function()
@@ -15,7 +18,7 @@ spawn(function()
       fireproximityprompt(workspace.Persistent.Wins["10"].Touch.WinBoard.Prompt.ProximityPrompt)
     end
     if autoJump then
-      game.ReplicatedStorage.Modules.Packages._Index"):FindFirstChild("sleitnick_net@0.2.0").net.RE/Tramp:FireServer(true, "Default")
+      game.ReplicatedStorage.Modules.Packages._Index:FindFirstChild("sleitnick_net@0.2.0").net:FindFirstChild("RE/Tramp"):FireServer(true, "Default")
     end
   end
   while task.wait() do

@@ -1,17 +1,21 @@
 local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
 local Window = lib:NewWindow("+1 Power Per Jump")
 local Main = Window:NewSection("Main")
-local autoWin
+local autoWin, autoJump
 Main:CreateToggle("Auto Win", function(state)
   autoWin = state
+end)
+Main:CreateToggle("Auto Jump", function(state)
+  autoJump = state
 end)
 spawn(function()
   task0 = function()
     if autoWin then
-      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = workspace.Persistent.Wins["10"].Touch.CFrame
-      wait(.15)
-      fireproximityprompt(workspace.Persistent.Wins["10"].Touch.WinBoard.Prompt.ProximityPrompt:FindFirstChild("ProximityPrompt"))
-      wait(.3)
+      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = workspace.Persistent.Wins["10"].Touch.CFrame * CFrame.new(0, 4, 0)
+      fireproximityprompt(workspace.Persistent.Wins["10"].Touch.WinBoard.Prompt.ProximityPrompt)
+    end
+    if autoJump then
+      game.ReplicatedStorage.Modules.Packages._Index"):FindFirstChild("sleitnick_net@0.2.0").net.RE/Tramp:FireServer(true, "Default")
     end
   end
   while task.wait() do

@@ -1,0 +1,25 @@
+local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
+local Window = lib:NewWindow("Infinite parts")
+local Main = Window:NewSection("Main")
+local collectParts, autoBuyArea
+Main:CreateToggle("Collect Parts", function(state)
+  collectParts = state
+end)
+Main:CreateToggle("Auto Buy Area", function(state)
+  autoBuyArea = state
+end)
+spawn(function()
+  task0 = function()
+    if collectParts then
+      for i,v in ipairs(workspace.PartFolder:GetChildren()) do
+         v.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+      end
+    end
+    if autoBuyArea then
+      game:GetService("ReplicatedStorage"):WaitForChild("Objects"):WaitForChild("Remotes"):WaitForChild("Area"):WaitForChild("BuyArea"):FireServer()
+    end
+  end
+  while task.wait() do
+    pcall(task0)
+  end
+end)

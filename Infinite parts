@@ -3,7 +3,8 @@ local Window = lib:NewWindow("Infinite parts")
 local Main, Rebirth = Window:NewSection("Main"), Window:NewSection("Rebirth")
 local collectParts, autoBuyArea
 local autoRebirth, autoUpgrades
-local rebirthArea = 130
+local rebirthArea, ScreenGui = 130, Instance.new("ScreenGui")
+local TextLabel = Instance.new("TextButton", ScreenGui)
 Main:CreateToggle("Collect Parts", function(state)
   collectParts = state
 end)
@@ -18,6 +19,9 @@ end)
 Main:CreateToggle("Auto Upgrades", function(state)
   autoUpgrades = state
 end)
+Main:CreateToggle("Show Stats", function(state)
+  TextLabel.Visible = state
+end)
 Rebirth:CreateTextbox("Rebirth Area", function(value)
   rebirthArea = tonumber(value)
 end)
@@ -29,6 +33,27 @@ workspace.Map.Areas.ChildAdded:Connect(function(child)
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = child.Primary.CFrame
   end
 end)
+
+ScreenGui.Name = "gui"
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+ScreenGui.ResetOnSpawn = true
+
+TextLabel.BackgroundColor3 = Color3.fromRGB(50, 100, 150)
+TextLabel.BackgroundTransparency = 1
+TextLabel.Position = UDim2.new(0, 0, 0, 0)
+TextLabel.Size = UDim2.new(0, 180, 0, 40)
+TextLabel.Font = Enum.Font.SourceSans
+TextLabel.Text = "SpamParry [OFF]"
+TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel.TextScaled = true
+TextLabel.TextSize = 15.000
+TextLabel.TextStrokeTransparency = 0.000
+TextLabel.TextWrapped = true
+TextLabel.Draggable = false
+TextLabel.Visible = false
+while task.wait() do
+  TextLabel.Text = ""..game.Stats.Network.ServerStatsItem["Data Ping"]:GetValue()
+end
 spawn(function()
   task0 = function()
     if collectParts then

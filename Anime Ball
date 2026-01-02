@@ -10,7 +10,13 @@ local Toggle2 = Instance.new("TextButton", ScreenGui)
 local UICorner = Instance.new("UICorner", Toggle2)
 local SpamParry = false
 local ParryDistance, ShowVisualizer
-local visual, block, Method
+local visual, block
+
+while task.wait() do
+  if SpamParry then
+    game.ReplicatedStorage.Framework.RemoteFunction:InvokeServer("SwordService","Block",{0})
+  end
+end
 
 ScreenGui.Name = "gui"
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
@@ -95,7 +101,6 @@ local Options = Fluent.Options
 do
        Tabs.Home:AddParagraph({Title = "Credits",Content = "Credits by NoobHubV4"})
        Tabs.Home:AddButton({Title = "Copy Script",Description = "",Callback = function() setclipboard("https://github.com/NoobHubV4/RobloxScripts") end})
-       local select = Tabs.Combat:AddDropdown("Dropdown", {Title = "Parry Method", Values = {"Keypress","Click"}, Multi = false, Default = 2}); select:SetValue("Click")
        local autoblock = Tabs.Combat:AddToggle("State1", {Title = "Auto Parry", Default = false })
        local manualspam = Tabs.Combat:AddToggle("State2", {Title = "Manual Spam", Default = false })
        local automove = Tabs.Combat:AddToggle("State3", {Title = "Follow Ball", Default = false })
@@ -116,9 +121,6 @@ do
        Show:OnChanged(function()
               ShowVisualizer = Options.State4.Value; Notify('NoobHubV4 Hub', 'Show Visualizer '..tostring(showCircle))
        end)
-       select:OnChanged(function(Value)
-              Method = Value; Notify("NoobHubV4 Hub", "Parry Method set "..Value)
-       end)
 end
 workspace.Balls.ChildAdded:Connect(function(child)
        child:GetAttributeChangedSignal("Target"):Connect(function()
@@ -128,7 +130,7 @@ end)
 spawn(function()
     function work()
         if GetBall():GetAttribute("Target") == Player.Name and not Parried and (Player.Character.HumanoidRootPart.Position - GetBall().Position).Magnitude / GetBall().LinearVelocity.VectorVelocity.Magnitude <= block and AutoParry then
-            if Method == "Click" then game.ReplicatedStorage.Framework.RemoteFunction:InvokeServer("SwordService","Block",{0}); elseif Method == "Keypress" then VIM:SendKeyEvent(true, "F", false, game); end
+            game.ReplicatedStorage.Framework.RemoteFunction:InvokeServer("SwordService","Block",{0})
             Parried = true; Cooldown = tick()
             while task.wait() do
                 if not Parried then
@@ -181,16 +183,6 @@ spawn(function()
      end
      while task.wait() do
          pcall(task2)
-     end
-end)
-spawn(function()
-     task3 = function()
-            if SpamParry then
-                   if Method == "Click" then game.ReplicatedStorage.Framework.RemoteFunction:InvokeServer("SwordService","Block",{0}); elseif Method == "Keypress" then VIM:SendKeyEvent(true, "F", false, game); end
-            end
-     end
-     while task.wait() do
-            pcall(task3)
      end
 end)
 Notify("Anime Ball", 'Script Loaded', 10)

@@ -1,8 +1,9 @@
 local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
 local Window = lib:NewWindow("Infinite parts")
-local Main = Window:NewSection("Main")
+local Main, Rebirth = Window:NewSection("Main"), Window:NewSection("Rebirth")
 local collectParts, autoBuyArea, autoUpgrades
-local autoTeleport, connection
+local autoTeleport, connection, autoRebirth
+local rebirthArea = 130
 Main:CreateToggle("Collect Parts", function(state)
   collectParts = state
 end)
@@ -26,6 +27,12 @@ Main:CreateToggle("Auto Teleport Best Area", function(state)
     connection = nil
   end
 end)
+Rebirth:CreateTextbox("Rebirth Area", function(value)
+  rebirthArea = value
+end)
+Rebirth:CreateToggle("Auto Rebirth", function(state)
+  autoRebirth = state
+end)
 spawn(function()
   task0 = function()
     if collectParts then
@@ -34,12 +41,19 @@ spawn(function()
       end
     end
     if autoBuyArea then
-      game:GetService("ReplicatedStorage"):WaitForChild("Objects"):WaitForChild("Remotes"):WaitForChild("Area"):WaitForChild("BuyArea"):FireServer()
+      game.ReplicatedStorage.Objects.Remotes.Area.BuyArea:FireServer()
     end
     if autoUpgrades then
       game.ReplicatedStorage.Objects.Remotes.Upgrades.BuyUpgrade:FireServer("PartValue")
       game.ReplicatedStorage.Objects.Remotes.Upgrades.BuyUpgrade:FireServer("PartSpawnRate")
     end
+    if autoRebirth then
+      area = rebirthArea
+      for i,v in ipairs(workspace.Map.Areas:GetChildren()) do
+        if v.Primary:GetAttribute("AreaIndex") >= area then
+          game.ReplicatedStorage.Objects.Remotes.Prestige.DoPrestige:FireServer("Rebirth")
+        end
+      end
   end
   while task.wait() do
     pcall(task0)

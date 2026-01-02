@@ -1,12 +1,15 @@
 local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
 local Window = lib:NewWindow("Infinite parts")
 local Main = Window:NewSection("Main")
-local collectParts, autoBuyArea
+local collectParts, autoBuyArea, autoUpgrades
 Main:CreateToggle("Collect Parts", function(state)
   collectParts = state
 end)
 Main:CreateToggle("Auto Buy Area", function(state)
   autoBuyArea = state
+end)
+Main:CreateToggle("Auto Upgrades", function(state)
+  autoUpgrades = state
 end)
 spawn(function()
   task0 = function()
@@ -17,6 +20,10 @@ spawn(function()
     end
     if autoBuyArea then
       game:GetService("ReplicatedStorage"):WaitForChild("Objects"):WaitForChild("Remotes"):WaitForChild("Area"):WaitForChild("BuyArea"):FireServer()
+    end
+    if autoUpgrades then
+      game.ReplicatedStorage.Objects.Remotes.Upgrades.BuyUpgrade:FireServer("PartValue")
+      game.ReplicatedStorage.Objects.Remotes.Upgrades.BuyUpgrade:FireServer("PartSpawnRate")
     end
   end
   while task.wait() do

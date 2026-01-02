@@ -1,37 +1,33 @@
 local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
 local Window = lib:NewWindow("Infinite parts")
 local Main, Rebirth = Window:NewSection("Main"), Window:NewSection("Rebirth")
-local collectParts, autoBuyArea, autoUpgrades
-local autoTeleport, connection, autoRebirth
+local collectParts, autoBuyArea
+local autoRebirth, autoUpgrades
 local rebirthArea = 130
 Main:CreateToggle("Collect Parts", function(state)
   collectParts = state
 end)
 Main:CreateToggle("Auto Buy Area", function(state)
   autoBuyArea = state
-end)
-Main:CreateToggle("Auto Upgrades", function(state)
-  autoUpgrades = state
-end)
-Main:CreateToggle("Auto Teleport Best Area", function(state)
-  autoTeleport = state
-  if autoTeleport then
+  if autoBuyArea then
     for i,v in ipairs(workspace.Map.Areas:GetChildren()) do
       game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Primary.CFrame
     end
-    connection = workspace.Map.Areas.ChildAdded:Connect(function(child)
-      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = child.Primary.CFrame
-    end)
-  elseif not autoTeleport then
-    connection:Disconnect()
-    connection = nil
   end
+end)
+Main:CreateToggle("Auto Upgrades", function(state)
+  autoUpgrades = state
 end)
 Rebirth:CreateTextbox("Rebirth Area", function(value)
   rebirthArea = tonumber(value)
 end)
 Rebirth:CreateToggle("Auto Rebirth", function(state)
   autoRebirth = state
+end)
+workspace.Map.Areas.ChildAdded:Connect(function(child)
+  if autoBuyArea then
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = child.Primary.CFrame
+  end
 end)
 spawn(function()
   task0 = function()

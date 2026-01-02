@@ -3,7 +3,7 @@ local Window = lib:NewWindow("Infinite parts")
 local Main, Rebirth = Window:NewSection("Main"), Window:NewSection("Rebirth")
 local collectParts, autoBuyArea
 local autoRebirth, autoUpgrades
-local rebirthArea, ScreenGui = 130, Instance.new("ScreenGui")
+local rebirthArea, ScreenGui = 130, Instance.new("ScreenGui", game.CoreGui)
 local TextLabel = Instance.new("TextButton", ScreenGui)
 Main:CreateToggle("Collect Parts", function(state)
   collectParts = state
@@ -43,7 +43,6 @@ TextLabel.BackgroundTransparency = 1
 TextLabel.Position = UDim2.new(0, 0, 0, 0)
 TextLabel.Size = UDim2.new(0, 180, 0, 40)
 TextLabel.Font = Enum.Font.SourceSans
-TextLabel.Text = "SpamParry [OFF]"
 TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 TextLabel.TextScaled = true
 TextLabel.TextSize = 15.000
@@ -52,7 +51,7 @@ TextLabel.TextWrapped = true
 TextLabel.Draggable = false
 TextLabel.Visible = false
 while task.wait() do
-  TextLabel.Text = ""..game.Stats.Network.ServerStatsItem["Data Ping"]:GetValue()
+  TextLabel.Text = "Ping: "..game.Stats.Network.ServerStatsItem["Data Ping"]:GetValue()
 end
 spawn(function()
   task0 = function()

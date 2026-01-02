@@ -12,12 +12,6 @@ local SpamParry = false
 local ParryDistance, ShowVisualizer
 local visual, block
 
-while task.wait() do
-  if SpamParry then
-    game.ReplicatedStorage.Framework.RemoteFunction:InvokeServer("SwordService","Block",{0})
-  end
-end
-
 ScreenGui.Name = "gui"
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 ScreenGui.ResetOnSpawn = true
@@ -185,5 +179,10 @@ spawn(function()
          pcall(task2)
      end
 end)
+while task.wait() do
+  if SpamParry then
+    game.ReplicatedStorage.Framework.RemoteFunction:InvokeServer("SwordService","Block",{0})
+  end
+end
 Notify("Anime Ball", 'Script Loaded', 10)
 Window:SelectTab(1)

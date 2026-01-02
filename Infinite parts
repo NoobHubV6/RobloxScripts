@@ -2,6 +2,7 @@ local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1
 local Window = lib:NewWindow("Infinite parts")
 local Main = Window:NewSection("Main")
 local collectParts, autoBuyArea, autoUpgrades
+local autoTeleport, connection
 Main:CreateToggle("Collect Parts", function(state)
   collectParts = state
 end)
@@ -10,6 +11,20 @@ Main:CreateToggle("Auto Buy Area", function(state)
 end)
 Main:CreateToggle("Auto Upgrades", function(state)
   autoUpgrades = state
+end)
+Main:CreateToggle("Auto Teleport Best Area", function(state)
+  autoTeleport = state
+  if autoTeleport then
+    for i,v in ipairs(workspace.Map.Areas:GetChildren()) do
+      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Primary.CFrame
+    end
+    connection = workspace.Map.Areas.ChildAdded:Connect(function(child)
+      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = child.Primary.CFrame
+    end)
+  elseif not autoTeleport then
+    connection:Disconnect()
+    connection = nil
+  end
 end)
 spawn(function()
   task0 = function()

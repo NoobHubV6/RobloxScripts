@@ -33,26 +33,6 @@ workspace.Map.Areas.ChildAdded:Connect(function(child)
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = child.Primary.CFrame
   end
 end)
-
-ScreenGui.Name = "gui"
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-ScreenGui.ResetOnSpawn = true
-
-TextLabel.BackgroundColor3 = Color3.fromRGB(50, 100, 150)
-TextLabel.BackgroundTransparency = 1
-TextLabel.Position = UDim2.new(0, 0, 0, 0)
-TextLabel.Size = UDim2.new(0, 180, 0, 40)
-TextLabel.Font = Enum.Font.SourceSans
-TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-TextLabel.TextScaled = true
-TextLabel.TextSize = 15.000
-TextLabel.TextStrokeTransparency = 0.000
-TextLabel.TextWrapped = true
-TextLabel.Draggable = false
-TextLabel.Visible = false
-while task.wait() do
-  TextLabel.Text = "Ping: "..game.Stats.Network.ServerStatsItem["Data Ping"]:GetValue()
-end
 spawn(function()
   task0 = function()
     if collectParts then
@@ -80,3 +60,21 @@ spawn(function()
     pcall(task0)
   end
 end)
+ScreenGui.Name = "gui"
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+ScreenGui.ResetOnSpawn = true
+TextLabel.BackgroundColor3 = Color3.fromRGB(50, 100, 150)
+TextLabel.BackgroundTransparency = 1
+TextLabel.Position = UDim2.new(0, 0, 0, 0)
+TextLabel.Size = UDim2.new(0, 180, 0, 45)
+TextLabel.Font = Enum.Font.SourceSans
+TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel.TextScaled = true
+TextLabel.TextSize = 18.000
+TextLabel.TextStrokeTransparency = 0.000
+TextLabel.TextWrapped = true
+TextLabel.Draggable = false
+TextLabel.Visible = false
+while task.wait() do
+  TextLabel.Text = "Ping: "..game.Stats.Network.ServerStatsItem["Data Ping"]:GetValue()
+end

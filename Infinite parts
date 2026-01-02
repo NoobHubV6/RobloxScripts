@@ -28,7 +28,7 @@ Main:CreateToggle("Auto Teleport Best Area", function(state)
   end
 end)
 Rebirth:CreateTextbox("Rebirth Area", function(value)
-  rebirthArea = value
+  rebirthArea = tonumber(value)
 end)
 Rebirth:CreateToggle("Auto Rebirth", function(state)
   autoRebirth = state
@@ -54,6 +54,7 @@ spawn(function()
           game.ReplicatedStorage.Objects.Remotes.Prestige.DoPrestige:FireServer("Rebirth")
         end
       end
+    end
   end
   while task.wait() do
     pcall(task0)

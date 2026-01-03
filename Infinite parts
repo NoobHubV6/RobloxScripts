@@ -4,7 +4,9 @@ local Main, Rebirth = Window:NewSection("Main"), Window:NewSection("Rebirth")
 local collectParts, autoBuyArea
 local autoRebirth, autoUpgrades
 local rebirthArea, ScreenGui = 130, Instance.new("ScreenGui", game.CoreGui)
-local TextLabel, TextLabel2 = Instance.new("TextLabel", ScreenGui), Instance.new("TextLabel", ScreenGui)
+local TextLabel = Instance.new("TextLabel", ScreenGui)
+local TextLabel2 = Instance.new("TextLabel", ScreenGui)
+local RunService = game:GetService("RunService")
 Main:CreateToggle("Collect Parts", function(state)
   collectParts = state
 end)
@@ -34,7 +36,7 @@ workspace.Map.Areas.ChildAdded:Connect(function(child)
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = child.Primary.CFrame
   end
 end)
-game.RunService.RenderStepped:Connect(function()
+RunService.RenderStepped:Connect(function()
   if collectParts then
     for i,v in ipairs(workspace.PartFolder:GetChildren()) do
       v.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
@@ -81,7 +83,7 @@ TextLabel2.TextStrokeTransparency = 0.000
 TextLabel2.TextWrapped = true
 TextLabel2.Visible = false
 TextLabel2.Text = "Test"
-game.RunService.RenderStepped:Connect(function(fps)
+RunService.RenderStepped:Connect(function(fps)
   TextLabel.Text = "Ping: "..game.Stats.Network.ServerStatsItem["Data Ping"]:GetValue()
   TextLabel2.Text = "FPS: "..math.round(1/fps)
 end)

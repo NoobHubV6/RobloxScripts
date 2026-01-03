@@ -5,7 +5,7 @@ local fastClick, autoSell
 Main:CreateToggle("Fast Click", function(state)
   fastClick = state
 end)
-Main:CreateToggle("Auto Sell (Patched)", function(state)
+Main:CreateToggle("Auto Sell", function(state)
   autoSell = state
 end)
 spawn(function()
@@ -14,7 +14,7 @@ spawn(function()
       game.ReplicatedStorage.Events.ToolEvents.ClickTool:FireServer(game.Players.LocalPlayer)
     end
     if autoSell then
-      --Patched
+      game.ReplicatedStorage.Events.Sell:InvokeServer(game.Players.LocalPlayer)
     end
   end
   while task.wait() do

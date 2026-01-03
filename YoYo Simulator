@@ -1,0 +1,23 @@
+local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
+local Window = lib:NewWindow("YoYo Simulator")
+local Main = Window:NewSection("Main")
+local fastClick, autoSell
+Main:CreateToggle("Fast Click", function(state)
+  fastClick = state
+end)
+Main:CreateToggle("Auto Sell (Patched)", function(state)
+  autoSell = state
+end)
+spawn(function()
+  task0 = function()
+    if fastClick then
+      game.ReplicatedStorage.Events.ToolEvents.ClickTool:FireServer(game.Players.LocalPlayer)
+    end
+    if autoSell then
+      --Patched
+    end
+  end
+  while task.wait() do
+    pcall(task0)
+  end
+end)

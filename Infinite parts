@@ -4,7 +4,7 @@ local Main, Rebirth = Window:NewSection("Main"), Window:NewSection("Rebirth")
 local collectParts, autoBuyArea
 local autoRebirth, autoUpgrades
 local rebirthArea, ScreenGui = 130, Instance.new("ScreenGui", game.CoreGui)
-local TextLabel = Instance.new("TextButton", ScreenGui)
+local TextLabel, TextLabel2 = Instance.new("TextLabel", ScreenGui), Instance.new("TextLabel", ScreenGui)
 Main:CreateToggle("Collect Parts", function(state)
   collectParts = state
 end)
@@ -21,6 +21,7 @@ Main:CreateToggle("Auto Upgrades", function(state)
 end)
 Main:CreateToggle("Show Stats", function(state)
   TextLabel.Visible = state
+  TextLabel2.Visible = state
 end)
 Rebirth:CreateTextbox("Rebirth Area", function(value)
   rebirthArea = tonumber(value)
@@ -65,16 +66,26 @@ ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 ScreenGui.ResetOnSpawn = true
 TextLabel.BackgroundColor3 = Color3.fromRGB(50, 100, 150)
 TextLabel.BackgroundTransparency = 1
-TextLabel.Position = UDim2.new(0, 0, 0, 0)
-TextLabel.Size = UDim2.new(0, 180, 0, 45)
+TextLabel.Size = UDim2.new(0, 180, 0, 55)
 TextLabel.Font = Enum.Font.SourceSans
 TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 TextLabel.TextScaled = true
-TextLabel.TextSize = 18.000
+TextLabel.TextSize = 22.000
 TextLabel.TextStrokeTransparency = 0.000
 TextLabel.TextWrapped = true
-TextLabel.Draggable = false
 TextLabel.Visible = false
+TextLabel2.BackgroundColor3 = Color3.fromRGB(50, 100, 150)
+TextLabel2.BackgroundTransparency = 1
+TextLabel2.Position = UDim2.new(0.1, 0, 0.1, 0)
+TextLabel2.Size = UDim2.new(0, 180, 0, 55)
+TextLabel2.Font = Enum.Font.SourceSans
+TextLabel2.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel2.TextScaled = true
+TextLabel2.TextSize = 22.000
+TextLabel2.TextStrokeTransparency = 0.000
+TextLabel2.TextWrapped = true
+TextLabel2.Visible = false
+TextLabel2.Text = "Test"
 while task.wait() do
   TextLabel.Text = "Ping: "..game.Stats.Network.ServerStatsItem["Data Ping"]:GetValue()
 end

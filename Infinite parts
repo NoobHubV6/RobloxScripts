@@ -1,14 +1,14 @@
 local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
 local Window = lib:NewWindow("Infinite parts")
-local Main, Rebirth = Window:NewSection("Main"), Window:NewSection("Rebirth")
+local Main, Info = Window:NewSection("Main"), Window:NewSection("Info")
 local collectParts, autoBuyArea
 local autoRebirth, autoUpgrades
-local rebirthArea, ScreenGui = 130, Instance.new("ScreenGui", game.CoreGui)
-local TextLabel = Instance.new("TextLabel", ScreenGui)
-local TextLabel2 = Instance.new("TextLabel", ScreenGui)
-local RunService = game:GetService("RunService")
+local rebirthArea, RunService = 130, game:GetService("RunService")
 Main:CreateToggle("Collect Parts", function(state)
   collectParts = state
+end)
+Main:CreateToggle("Auto Upgrades", function(state)
+  autoUpgrades = state
 end)
 Main:CreateToggle("Auto Buy Area", function(state)
   autoBuyArea = state
@@ -18,18 +18,14 @@ Main:CreateToggle("Auto Buy Area", function(state)
     end
   end
 end)
-Main:CreateToggle("Auto Upgrades", function(state)
-  autoUpgrades = state
-end)
-Main:CreateToggle("Show Stats", function(state)
-  TextLabel.Visible = state
-  TextLabel2.Visible = state
-end)
-Rebirth:CreateTextbox("Rebirth Area", function(value)
+Main:CreateTextbox("Rebirth Area", function(value)
   rebirthArea = tonumber(value)
 end)
-Rebirth:CreateToggle("Auto Rebirth", function(state)
+Main:CreateToggle("Auto Rebirth", function(state)
   autoRebirth = state
+end)
+Info:CreateButton("Created by NoobHubV6", function()
+  --hi
 end)
 workspace.Map.Areas.ChildAdded:Connect(function(child)
   if autoBuyArea then

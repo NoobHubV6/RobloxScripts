@@ -8,16 +8,13 @@ end)
 Main:CreateToggle("Auto Rebirth", function(state)
   autoRebirth = state
 end)
-spawn(function()
-  task0 = function()
-    if autoClick then
+game:GetService("RunService").RenderStepped:Connect(function()
+  if autoClick then
+    for i = 1,5 do
       game.ReplicatedStorage.NetworkRemoteObjects.ClientEvent:FireServer({channel = "click", args = {}})
     end
-    if autoRebirth then
-      game.ReplicatedStorage.NetworkRemoteObjects.ClientEvent:FireServer({channel = "rebirth_request", args = {}})
-    end
   end
-  while task.wait() do
-    pcall(task0)
+  if autoRebirth then
+    game.ReplicatedStorage.NetworkRemoteObjects.ClientEvent:FireServer({channel = "rebirth_request", args = {}})
   end
 end)

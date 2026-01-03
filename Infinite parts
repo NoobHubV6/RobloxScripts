@@ -48,6 +48,13 @@ RunService.RenderStepped:Connect(function()
   if autoUpgrades then
     game.ReplicatedStorage.Objects.Remotes.Upgrades.BuyUpgrade:FireServer("PartValue")
     game.ReplicatedStorage.Objects.Remotes.Upgrades.BuyUpgrade:FireServer("PartSpawnRate")
+    game.ReplicatedStorage.Objects.Remotes.Upgrades.BuyUpgrade:FireServer("MaxParts")
+    game.ReplicatedStorage.Objects.Remotes.Upgrades.BuyUpgrade:FireServer("NeonChance")
+    game.ReplicatedStorage.Objects.Remotes.Upgrades.BuyUpgrade:FireServer("GiantChance")
+    game.ReplicatedStorage.Objects.Remotes.Upgrades.BuyUpgrade:FireServer("SparklesChance")
+    game.ReplicatedStorage.Objects.Remotes.Upgrades.BuyUpgrade:FireServer("NeonValueMulti")
+    game.ReplicatedStorage.Objects.Remotes.Upgrades.BuyUpgrade:FireServer("GiantValueMulti")
+    game.ReplicatedStorage.Objects.Remotes.Upgrades.BuyUpgrade:FireServer("SparklesValueMulti")
   end
   if autoRebirth then
     area = rebirthArea

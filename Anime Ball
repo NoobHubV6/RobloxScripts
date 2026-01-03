@@ -134,7 +134,6 @@ RS.RenderStepped:Connect(function()
                 end
             end
         end
-    end
 end)
 spawn(function()
     function task0()

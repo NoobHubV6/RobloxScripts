@@ -122,7 +122,7 @@ workspace.Balls.ChildAdded:Connect(function(child)
        end)
 end)
 spawn(function()
-   task0 = function()
+   work = function()
      if GetBall():GetAttribute("Target") == Player.Name and not Parried and (Player.Character.HumanoidRootPart.Position - GetBall().Position).Magnitude / GetBall().LinearVelocity.VectorVelocity.Magnitude <= block and AutoParry then
             game.ReplicatedStorage.Framework.RemoteFunction:InvokeServer("SwordService","Block",{0})
             Parried = true; Cooldown = tick()
@@ -137,7 +137,7 @@ spawn(function()
         end
     end
     while task.wait() do
-         pcall(task0)
+         pcall(work)
     end
 end)
 spawn(function()

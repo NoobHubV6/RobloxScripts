@@ -34,31 +34,26 @@ workspace.Map.Areas.ChildAdded:Connect(function(child)
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = child.Primary.CFrame
   end
 end)
-spawn(function()
-  task0 = function()
-    if collectParts then
-      for i,v in ipairs(workspace.PartFolder:GetChildren()) do
-         v.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
-      end
-    end
-    if autoBuyArea then
-      game.ReplicatedStorage.Objects.Remotes.Area.BuyArea:FireServer()
-    end
-    if autoUpgrades then
-      game.ReplicatedStorage.Objects.Remotes.Upgrades.BuyUpgrade:FireServer("PartValue")
-      game.ReplicatedStorage.Objects.Remotes.Upgrades.BuyUpgrade:FireServer("PartSpawnRate")
-    end
-    if autoRebirth then
-      area = rebirthArea
-      for i,v in ipairs(workspace.Map.Areas:GetChildren()) do
-        if v.Primary:GetAttribute("AreaIndex") >= area then
-          game.ReplicatedStorage.Objects.Remotes.Prestige.DoPrestige:FireServer("Rebirth")
-        end
-      end
+game.RunService.RenderStepped:Connect(function()
+  if collectParts then
+    for i,v in ipairs(workspace.PartFolder:GetChildren()) do
+      v.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
     end
   end
-  while task.wait() do
-    pcall(task0)
+  if autoBuyArea then
+    game.ReplicatedStorage.Objects.Remotes.Area.BuyArea:FireServer()
+  end
+  if autoUpgrades then
+    game.ReplicatedStorage.Objects.Remotes.Upgrades.BuyUpgrade:FireServer("PartValue")
+    game.ReplicatedStorage.Objects.Remotes.Upgrades.BuyUpgrade:FireServer("PartSpawnRate")
+  end
+  if autoRebirth then
+    area = rebirthArea
+    for i,v in ipairs(workspace.Map.Areas:GetChildren()) do
+      if v.Primary:GetAttribute("AreaIndex") >= area then
+        game.ReplicatedStorage.Objects.Remotes.Prestige.DoPrestige:FireServer("Rebirth")
+      end
+    end
   end
 end)
 ScreenGui.Name = "gui"
@@ -76,7 +71,7 @@ TextLabel.TextWrapped = true
 TextLabel.Visible = false
 TextLabel2.BackgroundColor3 = Color3.fromRGB(50, 100, 150)
 TextLabel2.BackgroundTransparency = 1
-TextLabel2.Position = UDim2.new(0.1, 0, 0.1, 0)
+TextLabel2.Position = UDim2.new(0, 0, 0.15, 0)
 TextLabel2.Size = UDim2.new(0, 180, 0, 55)
 TextLabel2.Font = Enum.Font.SourceSans
 TextLabel2.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -86,6 +81,7 @@ TextLabel2.TextStrokeTransparency = 0.000
 TextLabel2.TextWrapped = true
 TextLabel2.Visible = false
 TextLabel2.Text = "Test"
-while task.wait() do
+game.RunService.RenderStepped:Connect(function(fps)
   TextLabel.Text = "Ping: "..game.Stats.Network.ServerStatsItem["Data Ping"]:GetValue()
-end
+  TextLabel2.Text = "FPS: "..math.round(1/fps)
+end)

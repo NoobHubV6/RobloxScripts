@@ -3,7 +3,6 @@ local Window = Fluent:CreateWindow({Title = "Anime Ball",SubTitle = "v1.2",TabWi
 local Tabs = {Home = Window:AddTab({ Title = "Home", Icon = "" }),Combat = Window:AddTab({ Title = "Combat", Icon = "" }),}
 local Player = game.Players.localPlayer
 local AutoMove, AutoParry, Cooldown
-local VIM = game:GetService("VirtualInputManager") or game:FindFirstDescendant("VirtualInputManager")
 local ScreenGui = Instance.new("ScreenGui", game.CoreGui)
 local Toggle = Instance.new("TextButton", ScreenGui)
 local Toggle2 = Instance.new("TextButton", ScreenGui)
@@ -11,6 +10,7 @@ local UICorner = Instance.new("UICorner", Toggle2)
 local SpamParry = false
 local ParryDistance, ShowVisualizer
 local visual, block
+local RS = game:GetService("RunService")
 
 ScreenGui.Name = "gui"
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
@@ -121,9 +121,8 @@ workspace.Balls.ChildAdded:Connect(function(child)
               Parried = false
        end)
 end)
-spawn(function()
-    function work()
-        if GetBall():GetAttribute("Target") == Player.Name and not Parried and (Player.Character.HumanoidRootPart.Position - GetBall().Position).Magnitude / GetBall().LinearVelocity.VectorVelocity.Magnitude <= block and AutoParry then
+RS.RenderStepped:Connect(function()
+     if GetBall():GetAttribute("Target") == Player.Name and not Parried and (Player.Character.HumanoidRootPart.Position - GetBall().Position).Magnitude / GetBall().LinearVelocity.VectorVelocity.Magnitude <= block and AutoParry then
             game.ReplicatedStorage.Framework.RemoteFunction:InvokeServer("SwordService","Block",{0})
             Parried = true; Cooldown = tick()
             while task.wait() do
@@ -135,9 +134,6 @@ spawn(function()
                 end
             end
         end
-    end
-    while task.wait() do
-        pcall(work)
     end
 end)
 spawn(function()
@@ -179,10 +175,10 @@ spawn(function()
          pcall(task2)
      end
 end)
-while task.wait() do
+RS.RenderStepped:Connect(function()
   if SpamParry then
     game.ReplicatedStorage.Framework.RemoteFunction:InvokeServer("SwordService","Block",{0})
   end
-end
+end)
 Notify("Anime Ball", 'Script Loaded', 10)
 Window:SelectTab(1)

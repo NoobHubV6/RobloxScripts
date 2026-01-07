@@ -2,6 +2,7 @@ local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1
 local Window = lib:NewWindow("Grab Battles")
 local Main = Window:NewSection("Main")
 local autoGrab, antiRagdoll
+local Player = game.Players.localPlayer
 Main:CreateToggle("Auto Grab", function(state)
   autoGrab = state
 end)
@@ -12,7 +13,7 @@ spawn(function()
   task0 = function()
     if autoGrab then
       for i,v in ipairs(game.Players:GetPlayers()) do
-       if v and v.Character then
+       if v ~= game.Players.LocalPlayer and (Player.Character.HumanoidRootPart.Position - v.Character.HumanoidRootPart.Position).Magnitude <= 10 then
          game.ReplicatedStorage.Packages:FindFirstChild("_Index"):FindFirstChild("sleitnick_knit@1.7.0").knit.Services.HugService.RE.Hug:FireServer(v.Character)
        end
       end

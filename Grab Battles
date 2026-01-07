@@ -1,13 +1,16 @@
 local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
 local Window = lib:NewWindow("Grab Battles")
 local Main = Window:NewSection("Main")
-local autoGrab, antiRagdoll
+local autoGrab, antiRagdoll, autoEscape
 local Player = game.Players.localPlayer
 Main:CreateToggle("Auto Grab", function(state)
   autoGrab = state
 end)
 Main:CreateToggle("Anti Ragdoll", function(state)
   antiRagdoll = state
+end)
+Main:CreateToggle("Auto Escape", function(state)
+  autoEscape = state
 end)
 spawn(function()
   task0 = function()
@@ -20,6 +23,9 @@ spawn(function()
     end
     if antiRagdoll then
       game.ReplicatedStorage.Packages:FindFirstChild("_Index"):FindFirstChild("sleitnick_knit@1.7.0").knit.Services.RagdollService.RE.SetRagdoll:FireServer(false)
+    end
+    if autoEscape then
+      game.ReplicatedStorage.Packages:FindFirstChild("_Index"):FindFirstChild("sleitnick_knit@1.7.0").knit.Services.HugService.RE.Escape:FireServer()
     end
   end
   while task.wait() do

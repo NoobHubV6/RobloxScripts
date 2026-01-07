@@ -1,20 +1,24 @@
 local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
 local Window = lib:NewWindow("Grab Battles")
 local Main = Window:NewSection("Main")
-local autoLift, autoRebirth
-Main:CreateToggle("Auto Lift", function(state)
-  autoLift = state
+local autoGrab, antiRagdoll
+Main:CreateToggle("Auto Grab", function(state)
+  autoGrab = state
 end)
-Main:CreateToggle("Auto Rebirth", function(state)
-  autoRebirth = state
+Main:CreateToggle("Anti Ragdoll (Patched)", function(state)
+  antiRagdoll = state
 end)
 spawn(function()
   task0 = function()
-    if autoLift then
-      game.ReplicatedStorage.Events.Gameplay.Lift:InvokeServer()
+    if autoGrab then
+      for i,v in ipairs(game.Players:GetPlayers()) do
+       if v and v.Character then
+         game.ReplicatedStorage.Packages:FindFirstChild("_Index"):FindFirstChild("sleitnick_knit@1.7.0").knit.Services.HugService.RE.Hug:FireServer(v.Character)
+       end
+      end
     end
-    if autoRebirth then
-      game.ReplicatedStorage.Events.Other.Rebirth:InvokeServer()
+    if antiRagdoll then
+      --Patched
     end
   end
   while task.wait() do

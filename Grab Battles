@@ -6,7 +6,7 @@ local Player = game.Players.localPlayer
 Main:CreateToggle("Auto Grab", function(state)
   autoGrab = state
 end)
-Main:CreateToggle("Anti Ragdoll (Patched)", function(state)
+Main:CreateToggle("Anti Ragdoll", function(state)
   antiRagdoll = state
 end)
 spawn(function()
@@ -19,7 +19,7 @@ spawn(function()
       end
     end
     if antiRagdoll then
-      --Patched
+      game.ReplicatedStorage.Packages:FindFirstChild("_Index"):FindFirstChild("sleitnick_knit@1.7.0").knit.Services.RagdollService.RE.SetRagdoll:FireServer(false)
     end
   end
   while task.wait() do

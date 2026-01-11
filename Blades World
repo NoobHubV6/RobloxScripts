@@ -5,7 +5,7 @@ local Section = Window:NewSection("Main")
 Section:CreateToggle("Auto Orbs", function(state)
   if state then
       Connection = game.workspace.activeOrbs.ChildAdded:Connect(function(child)
-          game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = child.CFrame
+          child.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
       end)
       for i,v in ipairs(game.workspace.activeOrbs:GetChildren()) do
           if v:IsA("Part") then

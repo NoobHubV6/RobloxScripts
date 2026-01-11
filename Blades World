@@ -1,0 +1,50 @@
+local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
+local autoStrength, Connection
+local Window = lib:NewWindow("Blades World")
+local Section = Window:NewSection("Main")
+Section:CreateToggle("Auto Orbs", function(state)
+  if state then
+      Connection = game.workspace.activeOrbs.ChildAdded:Connect(function(child)
+          game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = child.CFrame
+      end)
+      for i,v in ipairs(game.workspace.activeOrbs:GetChildren()) do
+          if v:IsA("Part") then
+              firetouchinterest(v, game.Players.LocalPlayer.Character.HumanoidRootPart, 0)
+          end
+      end
+  else
+      Connection:Disconnect()
+      Connection = nil
+  end
+end)
+Section:CreateToggle("Auto Strength", function(state)
+  autoStrength = state
+end)
+Section:CreateButton("Hide", function()
+  game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(574, 4, -494)
+end)
+Section:CreateButton("Complete Quest 1", function()
+  for i,v in next, game.Workspace.RoseHuntMission:GetChildren() do
+    if v:FindFirstChild("ProximityPrompt") then
+      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame
+      wait(.15)
+      fireproximityprompt(v:FindFirstChild("ProximityPrompt"), 2, false)
+    end
+  end
+end)
+Section:CreateButton("Complete Quest 3", function()
+  local pos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+  game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(0, 0, 1e7)
+  task.wait(.5)
+  game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pos
+end)
+task.spawn(function()
+  task0 = function()
+    if autoStrength then
+      game.workspace.BladePowerGiver.RemoteEvent:FireServer()
+    end
+  end
+  while task.wait() do
+    task.spawn(task0)
+  end
+end)

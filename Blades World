@@ -1,6 +1,6 @@
 local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
 local remote, Connection, click
-local fastClick, number = nil, 0.1
+local fastClick, number = nil, 0.2
 local Window = lib:NewWindow("Blades World")
 local Strength, Main = Window:NewSection("Strength"), Window:NewSection("Main")
 Strength:CreateButton("Get swords", function()
@@ -15,7 +15,7 @@ Strength:CreateToggle("Fast Click", function(state)
   if fastClick then
     number = 0.0375
   else
-    number = 0.1
+    number = 0.2
   end
 end)
 Strength:CreateToggle("Auto Strength (click)", function(state)

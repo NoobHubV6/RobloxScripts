@@ -6,10 +6,10 @@ Strength:CreateToggle("swing swords 21 per", function(state)
   autoStrength21 = state
 end)
 Strength:CreateToggle("swing swords 6 per", function(state)
-  workspace.Inventory.RemoteEvent:FireServer("1")
-  wait(.1)
-  game.TextChatService.TextChannels.RBXGeneral:SendAsync("/swords")
-  wait(.1)
+  if state then
+    workspace.Inventory.RemoteEvent:FireServer("1"); wait(.1)
+    game.TextChatService.TextChannels.RBXGeneral:SendAsync("/swords"); wait(.1)
+  end
   autoStrength6 = state
 end)
 Main:CreateToggle("Auto Orbs", function(state)

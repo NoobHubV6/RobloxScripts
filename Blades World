@@ -1,16 +1,16 @@
 local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
-local autoStrength21, Connection
+local remote, Connection, click
 local Window = lib:NewWindow("Blades World")
 local Strength, Main = Window:NewSection("Strength"), Window:NewSection("Main")
-Strength:CreateToggle("swing swords 21 per", function(state)
-  autoStrength21 = state
+Strength:CreateToggle("Auto Strength (remote)", function(state)
+  remote = state
 end)
-Strength:CreateToggle("swing swords 6 per", function(state)
-  if state then
-    workspace.Inventory.RemoteEvent:FireServer("1"); wait(.1)
-    game.TextChatService.TextChannels.RBXGeneral:SendAsync("/swords"); wait(.1)
-  end
-  autoStrength6 = state
+Strength:CreateButton("Get swords", function()
+  workspace.Inventory.RemoteEvent:FireServer("1"); wait(.1)
+  game.TextChatService.TextChannels.RBXGeneral:SendAsync("/swords")
+end)
+Strength:CreateToggle("Auto Strength (click)", function(state)
+  click = state
 end)
 Main:CreateToggle("Auto Orbs", function(state)
   if state then
@@ -47,17 +47,17 @@ Main:CreateButton("Complete Quest 3", function()
   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pos
 end)
 game:GetService("RunService").RenderStepped:Connect(function()
-  if autoStrength21 then
+  if remote then
     workspace.BladePowerGiver.RemoteEvent:FireServer()
   end
-  if autoStrength6 then
+  if click then
     game.Players.LocalPlayer.Character:FindFirstChild("1"):Activate()
   end
 end)
 spawn(function()
   while task.wait() do
     pcall(function()
-      if autoStrength6 then
+      if click then
         for i,v in ipairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
           if v:IsA("Tool") and v.Name == "1" then
             game.Players.LocalPlayer.Character.Humanoid:EquipTool(v); task.wait(.0375)

@@ -16,15 +16,8 @@ end)
 Strength:CreateToggle("Auto Strength (click)", function(state)
   click = state
   if click then
-    game.TextChatService.TextChannels.RBXGeneral:SendAsync("/swords")
-  else
-    game.Players.LocalPlayer.Character.Humanoid:UnequipTools()
-    wait(.1)
-    for _,tool in ipairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-      if v:IsA("Tool") then
-        tool.Parent = game.Players.LocalPlayer.Character
-        tool.Parent = workspace
-      end
+    if #game.Players.LocalPlayer.Backpack:GetChildren() <= 2 then
+      game.TextChatService.TextChannels.RBXGeneral:SendAsync("/swords")
     end
   end
 end)
@@ -70,12 +63,17 @@ game:GetService("RunService").RenderStepped:Connect(function()
     game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool"):Activate()
   end
 end)
+game.Players.LocalPlayer.CharacterAdded:Connect(function()
+  if click then
+    game.TextChatService.TextChannels.RBXGeneral:SendAsync("/swords")
+  end
+end)
 spawn(function()
   while task.wait() do
     pcall(function()
       if click then
         for i,v in ipairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-          if v:IsA("Tool") then
+          if v:IsA("Tool") and click then
             game.Players.LocalPlayer.Character.Humanoid:EquipTool(v); task.wait(number)
           end
         end

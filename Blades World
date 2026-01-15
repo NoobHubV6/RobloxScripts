@@ -3,23 +3,30 @@ local remote, Connection, click
 local fastClick, number = nil, 0.2
 local Window = lib:NewWindow("Blades World")
 local Strength, Main = Window:NewSection("Strength"), Window:NewSection("Main")
-Strength:CreateButton("Get swords", function()
-  workspace.Inventory.RemoteEvent:FireServer("1"); wait(.1)
-  game.TextChatService.TextChannels.RBXGeneral:SendAsync("/swords")
+Strength:CreateDropdown("Select fast or normal", {"normal","fast"}, 1, function(select)
+  if select == "normal" then
+    number = 0.2
+  elseif select == "fast" then
+    number = 0.0375
+  end
 end)
 Strength:CreateToggle("Auto Strength (remote)", function(state)
   remote = state
 end)
-Strength:CreateToggle("Fast Click", function(state)
-  fastClick = state
-  if fastClick then
-    number = 0.0375
-  else
-    number = 0.2
-  end
-end)
 Strength:CreateToggle("Auto Strength (click)", function(state)
   click = state
+  if click then
+    game.TextChatService.TextChannels.RBXGeneral:SendAsync("/swords")
+  else
+    game.Players.LocalPlayer.Character.Humanoid:UnequipTools()
+    wait(.1)
+    for _,tool in ipairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+      if v:IsA("Tool") then
+        tool.Parent = game.Players.LocalPlayer.Character
+        tool.Parent = workspace
+      end
+    end
+  end
 end)
 Main:CreateToggle("Auto Orbs", function(state)
   if state then
@@ -60,7 +67,7 @@ game:GetService("RunService").RenderStepped:Connect(function()
     workspace.BladePowerGiver.RemoteEvent:FireServer()
   end
   if click then
-    game.Players.LocalPlayer.Character:FindFirstChild("1"):Activate()
+    game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool"):Activate()
   end
 end)
 spawn(function()
@@ -68,7 +75,7 @@ spawn(function()
     pcall(function()
       if click then
         for i,v in ipairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-          if v:IsA("Tool") and v.Name == "1" then
+          if v:IsA("Tool") then
             game.Players.LocalPlayer.Character.Humanoid:EquipTool(v); task.wait(number)
           end
         end

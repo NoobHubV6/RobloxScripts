@@ -1,8 +1,8 @@
 local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
 local Window = lib:NewWindow("Aura RPG")
 local Main = Window:NewSection("Main")
-local autoKill, nameMobs = nil, nil
-Main:CreateDropdown("Mobs Name", {"nil"}, 1, function(select)
+local autoKill, nameMobs = nil, "Dummy"
+Main:CreateDropdown("Mobs Name", {"Dummy","Stronger_Dummy","Boss_Dummy"}, 1, function(select)
   nameMobs = select
 end)
 Main:CreateToggle("Auto Kill", function(state)

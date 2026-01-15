@@ -112,7 +112,7 @@ spawn(function()
     pcall(function()
       if click and not stop then
         for i,v in ipairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-          if v:IsA("Tool") and click then
+          if v:IsA("Tool") and click and not stop then
             game.Players.LocalPlayer.Character.Humanoid:EquipTool(v); task.wait(number)
           end
         end

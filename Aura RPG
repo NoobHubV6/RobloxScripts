@@ -2,7 +2,7 @@ local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1
 local Window = lib:NewWindow("Aura RPG")
 local Main = Window:NewSection("Main")
 local autoKill, nameMobs = nil, "Dummy"
-Main:CreateDropdown("Mobs Name", {"Dummy","Stronger_Dummy","Boss_Dummy","Frost_Dummy","Frost_Stronger","Frost_Boss","Reaper","Angel","E440R","Infinite I","Infinite II","Infinite III","3RROR Infinity","RadioActive","Toxic","Infection","TimeWaster","TimeSteal","Time Fuse","Solar","Solar Blue","Solar Flare","Sirius"}, 1, function(select)
+Main:CreateDropdown("Mobs Name", {"Dummy","Stronger_Dummy","Boss_Dummy","Frost_Dummy","Frost_Stronger","Frost_Boss","Reaper","Angel","E440R","Infinite I","Infinite II","Infinite III","3RROR Infinity","RadioActive","Toxic","Infection","TimeWaster","TimeSteal","Time Fuse","Solar","Solar Blue","Solar Flare","Sirius","Ginrd","Grinder I","Grinder II","Grinder III","Grinder IV","Grinder V","Grinder VI","Grinder VII"}, 1, function(select)
   nameMobs = select
 end)
 Main:CreateToggle("Auto Kill", function(state)

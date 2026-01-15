@@ -1,8 +1,41 @@
 local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
-local remote, Connection, click
+local remote, Connection, click, stop
 local fastClick, number = nil, 0.2
 local Window = lib:NewWindow("Blades World")
 local Strength, Main = Window:NewSection("Strength"), Window:NewSection("Main")
+function Dupe(amount)
+  stop = true
+  for i = 1,amount or 1 do
+    if game.Players.LocalPlayer.Character:FindFirstChild("1") or game.Players.LocalPlayer.Backpack:FindFirstChild("1") then
+      --nothing
+    else
+      workspace.Inventory.RemoteEvent:FireServer("1")
+    end
+    game.Players.LocalPlayer.Character.Humanoid:UnequipTools()
+    wait(.2)
+    for i,v in ipairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+      if v:IsA("Tool") then
+        v.Parent = game.Players.LocalPlayer.Character
+      end
+    end
+    wait(.2)
+    for i,v in ipairs(game.Players.LocalPlayer.Character:GetChildren()) do
+      if v:IsA("Tool") then
+        v.Parent = game.Workspace
+      end
+    end
+    wait(.2)
+    workspace.Inventory.RemoteEvent:FireServer("1")
+    wait(.2)
+    for i,v in ipairs(workspace:GetChildren()) do
+      if v:IsA("Tool") then
+        game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
+      end
+    end
+   wait(1)
+  end
+  stop = false
+end
 Strength:CreateDropdown("Select fast or normal", {"normal","fast"}, 1, function(select)
   if select == "normal" then
     number = 0.2
@@ -17,7 +50,7 @@ Strength:CreateToggle("Auto Strength (click)", function(state)
   click = state
   if click then
     if #game.Players.LocalPlayer.Backpack:GetChildren() <= 2 then
-      game.TextChatService.TextChannels.RBXGeneral:SendAsync("/swords")
+      Dupe(15)
     end
   end
 end)
@@ -65,13 +98,13 @@ game:GetService("RunService").RenderStepped:Connect(function()
 end)
 game.Players.LocalPlayer.CharacterAdded:Connect(function()
   if click then
-    game.TextChatService.TextChannels.RBXGeneral:SendAsync("/swords")
+    Dupe(15)
   end
 end)
 spawn(function()
   while task.wait() do
     pcall(function()
-      if click then
+      if click and not stop then
         for i,v in ipairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
           if v:IsA("Tool") and click then
             game.Players.LocalPlayer.Character.Humanoid:EquipTool(v); task.wait(number)

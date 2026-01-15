@@ -88,6 +88,12 @@ Main:CreateButton("Complete Quest 3", function()
   task.wait(.5)
   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pos
 end)
+Main:CreateTextbox("Dupe Amount", function(text)
+  local args = tonumber(text)
+  if args then
+    Dupe(args)
+  end
+end)
 game:GetService("RunService").RenderStepped:Connect(function()
   if remote then
     workspace.BladePowerGiver.RemoteEvent:FireServer()

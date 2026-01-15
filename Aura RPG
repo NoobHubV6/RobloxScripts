@@ -1,0 +1,19 @@
+local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
+local Window = lib:NewWindow("Aura RPG")
+local Main = Window:NewSection("Main")
+local autoKill, nameMobs = nil, nil
+Main:CreateDropdown("Mobs Name", {"nil"}, 1, function(select)
+  nameMobs = select
+end)
+Main:CreateToggle("Auto Kill", function(state)
+  autoKill = state
+end)
+game:GetService("RunService").RenderStepped:Connect(function()
+  if autoKill then
+    for i,v in ipairs(workspace.Mobs:GetChildren()) do
+      if v.Name == nameMobs then
+        game.ReplicatedStorage.GameRemotes.DamageEvent:FireServer(v:FindFirstChild("Right Leg"), v:FindFirstChild("Enemy"), game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool"))
+      end
+    end
+  end
+end)

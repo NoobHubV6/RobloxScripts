@@ -1,6 +1,6 @@
 local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
 local Window = lib:NewWindow("Grab Battles")
-local Main = Window:NewSection("Main")
+local Main, Info = Window:NewSection("Main"), Window:NewSection("Info")
 local autoGrab, antiRagdoll, autoEscape
 local Player = game.Players.localPlayer
 local autoThrow
@@ -12,6 +12,12 @@ Main:CreateToggle("Anti Ragdoll", function(state)
 end)
 Main:CreateToggle("Auto Escape", function(state)
   autoEscape = state
+end)
+Main:CreateToggle("Auto Throw", function(state)
+  autoThrow = state
+end)
+Main:CreateButton("Created by NoobHubV6", function()
+  --Nothing
 end)
 game.Players.LocalPlayer.PlayerGui.Interface.ThrowButton:GetPropertyChangedSignal("Visible"):Connect(function()
   if autoThrow and game.Players.LocalPlayer.PlayerGui.Interface.ThrowButton.Visible then

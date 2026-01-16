@@ -1,0 +1,18 @@
+local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
+local Window = lib:NewWindow("Brainrot Clicker")
+local Main = Window:NewSection("Main")
+local autoClick, autoRebirth
+Main:CreateToggle("Auto Click", function(state)
+  autoClick = state
+end)
+Main:CreateToggle("Auto Rebirth", function(state)
+  autoRebirth = state
+end)
+game:GetService("RunService").RenderStepped:Connect(function()
+  if autoClick then
+    game.ReplicatedStorage.Remotes.ClickBrainrot:FireServer(1)
+  end
+  if autoRebirth then
+    game.ReplicatedStorage.Remotes.Rebirth:InvokeServer()
+  end
+end)

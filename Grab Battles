@@ -3,6 +3,7 @@ local Window = lib:NewWindow("Grab Battles")
 local Main = Window:NewSection("Main")
 local autoGrab, antiRagdoll, autoEscape
 local Player = game.Players.localPlayer
+local autoThrow
 Main:CreateToggle("Auto Grab", function(state)
   autoGrab = state
 end)
@@ -11,6 +12,16 @@ Main:CreateToggle("Anti Ragdoll", function(state)
 end)
 Main:CreateToggle("Auto Escape", function(state)
   autoEscape = state
+end)
+game.Players.LocalPlayer.PlayerGui.Interface.ThrowButton:GetPropertyChangedSignal("Visible"):Connect(function()
+  if autoThrow and game.Players.LocalPlayer.PlayerGui.Interface.ThrowButton.Visible then
+    local pos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(403, 120, 273)
+    wait(.1)
+    game.ReplicatedStorage.Packages:FindFirstChild("_Index"):FindFirstChild("sleitnick_knit@1.7.0").knit.Services.HugService.RE.ThrowPlayer:FireServer()
+    repeat task.wait() until not game.Players.LocalPlayer.PlayerGui.Interface.ThrowButton.Visible
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pos
+  end
 end)
 spawn(function()
   task0 = function()

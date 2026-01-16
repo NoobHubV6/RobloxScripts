@@ -12,27 +12,27 @@ function Dupe(amount)
       workspace.Inventory.RemoteEvent:FireServer("1")
     end
     game.Players.LocalPlayer.Character.Humanoid:UnequipTools()
-    wait(.2)
+    wait(.1875)
     for i,v in ipairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
       if v:IsA("Tool") then
         v.Parent = game.Players.LocalPlayer.Character
       end
     end
-    wait(.2)
+    wait(.1875)
     for i,v in ipairs(game.Players.LocalPlayer.Character:GetChildren()) do
       if v:IsA("Tool") then
         v.Parent = game.Workspace
       end
     end
-    wait(.2)
+    wait(.1875)
     workspace.Inventory.RemoteEvent:FireServer("1")
-    wait(.2)
+    wait(.1875)
     for i,v in ipairs(workspace:GetChildren()) do
       if v:IsA("Tool") then
         game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
       end
     end
-   wait(1)
+   wait(.875)
   end
   stop = false
 end

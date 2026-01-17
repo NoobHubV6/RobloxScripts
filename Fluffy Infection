@@ -24,7 +24,7 @@ Main:CreateToggle("Auto Get Bat", function(state)
               repeat task.wait()
                 fireproximityprompt(workspace.Map.MetalBat:FindFirstChild("ProximityPrompt"))
               until game.Players.LocalPlayer.Backpack:FindFirstChild("Metal Bat") or game.Players.LocalPlayer.Character:FindFirstChild("Metal Bat")
-              game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pos
+              game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pos; stop = false
             end
           end
         end

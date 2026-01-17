@@ -16,16 +16,17 @@ end)
 Main:CreateToggle("Auto Throw", function(state)
   autoThrow = state
 end)
-Main:CreateButton("Created by NoobHubV6", function()
+Info:CreateButton("Created by NoobHubV6", function()
   --Nothing
 end)
 game.Players.LocalPlayer.PlayerGui.Interface.ThrowButton:GetPropertyChangedSignal("Visible"):Connect(function()
   if autoThrow and game.Players.LocalPlayer.PlayerGui.Interface.ThrowButton.Visible then
     local pos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(403, 120, 273)
-    wait(.1)
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(403, 160, 273)
+    wait(.2)
     game.ReplicatedStorage.Packages:FindFirstChild("_Index"):FindFirstChild("sleitnick_knit@1.7.0").knit.Services.HugService.RE.ThrowPlayer:FireServer()
     repeat task.wait() until not game.Players.LocalPlayer.PlayerGui.Interface.ThrowButton.Visible
+    wait(.2)
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pos
   end
 end)

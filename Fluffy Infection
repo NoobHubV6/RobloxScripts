@@ -1,0 +1,25 @@
+local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
+local Window = lib:NewWindow("Fluffy Infection")
+local Main = Window:NewSection("Main")
+local killAura, autoEscape
+Main:CreateToggle("Kill Aura", function(state)
+  killAura = state
+end)
+Main:CreateToggle("auto Escape Gui", function(state)
+  autoEscape = state
+end)
+game:GetService("RunService").RenderStepped:Connect(function()
+  if killAura then
+    for i,v in ipairs(game.Players:GetPlayers()) do
+      if v.Team ~= game.Players.LocalPlayer.Team and v.Character.Humanoid.Health ~= 0 then
+        local tool = game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool")
+        if tool and (v.Character.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 10 then
+          tool.Remote.Hit:FireServer(v.Character.HumanoidRootPart, v.Character.Humanoid, v.Character.HumanoidRootPart.Position)
+        end
+      end
+    end
+  end
+  if autoEscape then
+    game.Players.LocalPlayer.PlayerGui.EscapeGui.Remote.Hit:InvokeServer()
+  end
+end)

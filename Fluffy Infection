@@ -23,6 +23,27 @@ end)
 Main:CreateToggle("Auto Get Bat", function(state)
   autoGetBat = state
 end)
+Main:CreateButton("Kill All", function()
+  local savedpos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+GetBat()
+for i,v in next, game.Teams.Krymzonix:GetPlayers() do
+if v ~= game.Players.LocalPlayer and not v.Character:FindFirstChildWhichIsA("ForceField") and v.Character.Humanoid.Health ~= 0 then
+if not v:IsFriendsWith(game.Players.LocalPlayer.UserId) then
+repeat task.wait()
+      if game.Players.LocalPlayer.Backpack:FindFirstChild("Metal Bat") then
+            game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack:FindFirstChild("Metal Bat"))
+      end
+      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Character.HumanoidRootPart.CFrame * CFrame.new(0, 5, 0)
+      game.Players.LocalPlayer.Character:FindFirstChild("Metal Bat").Remote.Hit:FireServer(v.Character.Torso,v.Character.Humanoid,v.Character.Torso.Position)
+until v.Team == game.Teams.Human or v.Character.Humanoid.Health == 0
+end
+end
+end
+wait(.1)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = savedpos
+wait(.05)
+savedpos = nil
+end)
 Main:CreateToggle("Auto Escape Gui", function(state)
   autoEscape = state
 end)

@@ -2,35 +2,24 @@ local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1
 local Window = lib:NewWindow("Fluffy Infection")
 local Main, Team = Window:NewSection("Main"), Window:NewSection("Team")
 local killAura, autoEscape, autoGetBat
-local stop
+function GetBat()
+  if game.Players.LocalPlayer.Character:FindFirstChild("Bat") or game.Players.LocalPlayer.Backpack:FindFirstChild("Bat") or game.Players.LocalPlayer.Backpack:FindFirstChild("Metal Bat") or game.Players.LocalPlayer.Character:FindFirstChild("Metal Bat") then
+    
+else    
+    local oldpos = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position
+    game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = workspace.MetalBat.CFrame
+    repeat task.wait()
+    game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = workspace.MetalBat.CFrame
+    fireproximityprompt(workspace.Map.MetalBat.ProximityPrompt, 2, false)
+    until game.Players.LocalPlayer.Character:FindFirstChild("Bat") or game.Players.LocalPlayer.Backpack:FindFirstChild("Bat") or game.Players.LocalPlayer.Backpack:FindFirstChild("Metal Bat") or game.Players.LocalPlayer.Character:FindFirstChild("Metal Bat")
+    game:GetService("Players").localPlayer.Character:MoveTo(oldpos)
+end
+end
 Main:CreateToggle("Kill Aura", function(state)
   killAura = state
 end)
 Main:CreateToggle("Auto Get Bat", function(state)
   autoGetBat = state
-  if autoGetBat then
-    while autoGetBat and task.wait() do
-      pcall(function()
-        if game.Players.LocalPlayer.Character:FindFirstChild("Metal Bat") or game.Players.LocalPlayer.Backpack:FindFirstChild("Metal Bat") then
-          --nothing
-        else
-          if not stop then
-            stop = true
-            if game.Players.LocalPlayer.Team == game.Teams.Krymzonix then
-              stop = false
-            elseif game.Players.LocalPlayer.Team == game.Teams.Human then
-              local pos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
-              game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = workspace.Map.MetalBat.CFrame
-              repeat task.wait()
-                fireproximityprompt(workspace.Map.MetalBat:FindFirstChild("ProximityPrompt"))
-              until game.Players.LocalPlayer.Backpack:FindFirstChild("Metal Bat") or game.Players.LocalPlayer.Character:FindFirstChild("Metal Bat")
-              game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pos; stop = false
-            end
-          end
-        end
-      end)
-    end
-  end
 end)
 Main:CreateToggle("Auto Escape Gui", function(state)
   autoEscape = state

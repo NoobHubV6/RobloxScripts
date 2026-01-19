@@ -17,6 +17,9 @@ if game.Players.LocalPlayer.Team == game.Teams.Human then
 end
 end
 end
+Main:CreateToggle("Anti Fag Infect (Patched)", function(state)
+    --Patched
+end)
 Main:CreateToggle("Kill Aura", function(state)
   killAura = state
 end)
@@ -52,9 +55,7 @@ Main:CreateToggle("Spam Tool Sounds", function(state)
 end)
 Team:CreateButton("Human", function()
   if game.Players.LocalPlayer.Team == game.Teams.Krymzonix then
-    local pos = game.Players.localPlayer.Character.HumanoidRootPart.CFrame
-    game.Players.LocalPlayer.Character.Humanoid.Health = 0
-    game.Players.localPlayer.CharacterAdded:Wait().HumanoidRootPart.CFrame = pos
+    game.Players.LocalPlayer.Character.Humanoid:ChangeState("Dead")
   end
 end)
 Team:CreateButton("Krymzonix", function()

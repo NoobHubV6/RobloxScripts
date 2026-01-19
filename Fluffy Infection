@@ -1,7 +1,7 @@
 local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
 local Window = lib:NewWindow("Fluffy Infection")
 local Main, Team = Window:NewSection("Main"), Window:NewSection("Team")
-local killAura, autoEscape, autoGetBat
+local killAura, autoEscape, autoGetBat, spamSounds
 function GetBat()
 if game.Players.LocalPlayer.Team == game.Teams.Human then
         if game.Players.LocalPlayer.Character:FindFirstChild("Bat") or game.Players.LocalPlayer.Backpack:FindFirstChild("Bat") or game.Players.LocalPlayer.Backpack:FindFirstChild("Metal Bat") or game.Players.LocalPlayer.Character:FindFirstChild("Metal Bat") then
@@ -26,11 +26,20 @@ end)
 Main:CreateToggle("Auto Escape Gui", function(state)
   autoEscape = state
 end)
+Main:CreateToggle("Spam Tool Sounds", function(state)
+  spamSounds = state
+end)
 Team:CreateButton("Human", function()
-  game.Players.LocalPlayer.Character.Humanoid.Health = 0
+  if game.Players.LocalPlayer.Team == game.Teams.Krymzonix then
+    local pos = game.Players.localPlayer.Character.HumanoidRootPart.CFrame
+    game.Players.LocalPlayer.Character.Humanoid.Health = 0
+    game.Players.localPlayer.CharacterAdded:Wait().HumanoidRootPart.CFrame = pos
+  end
 end)
 Team:CreateButton("Krymzonix", function()
-  firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, workspace.Map.CrimsonPart:GetChildren()[9], 0)
+  if game.Players.LocalPlayer.Team == game.Teams.Human then
+    firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, workspace.Map.CrimsonPart:GetChildren()[9], 0)
+  end
 end)
 game:GetService("RunService").RenderStepped:Connect(function()
   if killAura then
@@ -45,6 +54,9 @@ game:GetService("RunService").RenderStepped:Connect(function()
   end
   if autoEscape then
     game.Players.LocalPlayer.PlayerGui.EscapeGui.Remote.Hit:InvokeServer()
+  end
+  if spamSounds then
+    game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool").Remote.PlaySound:FireServer('Swing')
   end
 end)
 spawn(function()

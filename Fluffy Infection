@@ -1,7 +1,36 @@
 local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
 local Window = lib:NewWindow("Fluffy Infection")
 local Main, Team = Window:NewSection("Main"), Window:NewSection("Team")
-local killAura, autoEscape, autoGetBat, spamSounds
+local killAura, autoEscape, spamSounds
+if workspace:FindFirstChild("fagfolder") then
+  --
+else
+  local folder = Instance.new("Folder",workspace)
+  folder.Name = "fagfolder"
+  for i,v in ipairs(workspace.Map.CrimsonPart:GetChildren()) do
+    if v.Name == "CrimsonPart" then
+      v.Parent = folder
+    end
+  end
+end
+function KillAll()
+  for i,v in next, game.Teams.Krymzonix:GetPlayers() do
+if v ~= game.Players.LocalPlayer and not v.Character:FindFirstChildWhichIsA("ForceField") and v.Character.Humanoid.Health ~= 0 then
+if not v:IsFriendsWith(game.Players.LocalPlayer.UserId) then
+  local savedpos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+  repeat task.wait()
+      GetBat()
+      if game.Players.LocalPlayer.Backpack:FindFirstChild("Metal Bat") then
+            game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack:FindFirstChild("Metal Bat"))
+      end
+      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Character.HumanoidRootPart.CFrame * CFrame.new(0, 5, 0)
+      game.Players.LocalPlayer.Character:FindFirstChild("Metal Bat").Remote.Hit:FireServer(v.Character.Torso,v.Character.Humanoid,v.Character.Torso.Position)
+  until v.Team == game.Teams.Human or v.Character.Humanoid.Health == 0
+  game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = savedpos
+end
+end
+end
+end
 function GetBat()
 if game.Players.LocalPlayer.Team == game.Teams.Human then
         if game.Players.LocalPlayer.Character:FindFirstChild("Bat") or game.Players.LocalPlayer.Backpack:FindFirstChild("Bat") or game.Players.LocalPlayer.Backpack:FindFirstChild("Metal Bat") or game.Players.LocalPlayer.Character:FindFirstChild("Metal Bat") then
@@ -17,35 +46,33 @@ if game.Players.LocalPlayer.Team == game.Teams.Human then
 end
 end
 end
-Main:CreateToggle("Anti Fag Infect (Patched)", function(state)
-    --Patched
+local folder = workspace:FindFirstChild("fagfolder")
+Main:CreateToggle("Anti Fag Infect", function(state)
+    if state then
+      folder.Parent = nil
+    else
+      folder.Parent = workspace
+    end
 end)
 Main:CreateToggle("Kill Aura", function(state)
   killAura = state
 end)
 Main:CreateToggle("Auto Get Bat", function(state)
-  autoGetBat = state
+  while state and task.wait() do
+    pcall(function()
+      GetBat()
+    end)
+  end
 end)
 Main:CreateButton("Kill All", function()
-  local savedpos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
-GetBat()
-for i,v in next, game.Teams.Krymzonix:GetPlayers() do
-if v ~= game.Players.LocalPlayer and not v.Character:FindFirstChildWhichIsA("ForceField") and v.Character.Humanoid.Health ~= 0 then
-if not v:IsFriendsWith(game.Players.LocalPlayer.UserId) then
-repeat task.wait()
-      if game.Players.LocalPlayer.Backpack:FindFirstChild("Metal Bat") then
-            game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack:FindFirstChild("Metal Bat"))
-      end
-      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Character.HumanoidRootPart.CFrame * CFrame.new(0, 5, 0)
-      game.Players.LocalPlayer.Character:FindFirstChild("Metal Bat").Remote.Hit:FireServer(v.Character.Torso,v.Character.Humanoid,v.Character.Torso.Position)
-until v.Team == game.Teams.Human or v.Character.Humanoid.Health == 0
-end
-end
-end
-wait(.1)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = savedpos
-wait(.05)
-savedpos = nil
+  KillAll()
+end)
+Main:CreateToggle("Loop Kill All", function(state)
+  while state and task.wait() do
+    pcall(function()
+      KillAll()
+    end)
+  end
 end)
 Main:CreateToggle("Auto Escape Gui", function(state)
   autoEscape = state
@@ -66,10 +93,12 @@ end)
 game:GetService("RunService").RenderStepped:Connect(function()
   if killAura then
     for i,v in ipairs(game.Players:GetPlayers()) do
-      if v.Team ~= game.Players.LocalPlayer.Team and v.Character.Humanoid.Health ~= 0 then
-        local tool = game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool")
-        if tool and (v.Character.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 10 then
-          tool.Remote.Hit:FireServer(v.Character.HumanoidRootPart, v.Character.Humanoid, v.Character.HumanoidRootPart.Position)
+      if not v:IsFriendsWith(game.Players.LocalPlayer.UserId) then
+        if v.Team ~= game.Players.LocalPlayer.Team and v.Character.Humanoid.Health ~= 0 then
+          local tool = game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool")
+          if tool and (v.Character.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 10 then
+            tool.Remote.Hit:FireServer(v.Character.HumanoidRootPart, v.Character.Humanoid, v.Character.HumanoidRootPart.Position)
+          end
         end
       end
     end
@@ -80,13 +109,4 @@ game:GetService("RunService").RenderStepped:Connect(function()
   if spamSounds then
     game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool").Remote.PlaySound:FireServer('Swing')
   end
-end)
-spawn(function()
-  while task.wait() do
-    pcall(function()
-      if autoGetBat then
-        GetBat()
-end
-end)
-end
 end)

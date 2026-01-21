@@ -1,14 +1,14 @@
 local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
 local Window = lib:NewWindow("Fluffy Infection")
 local Main, Team = Window:NewSection("Main"), Window:NewSection("Team")
-local killAura, autoEscape, spamSounds
+local killAura, autoEscape, spamSounds, loopkillall
 if workspace:FindFirstChild("fagfolder") then
   --
 else
   local folder = Instance.new("Folder",workspace)
   folder.Name = "fagfolder"
   for i,v in ipairs(workspace.Map.CrimsonPart:GetChildren()) do
-    if v.Name == "CrimsonPart" then
+    if v.Name == "CrimsonPart" or v.Name == "MothArea" or v.Name == "RedCaveArea" or v.Name == "ProtogenMask" then
       v.Parent = folder
     end
   end
@@ -68,7 +68,8 @@ Main:CreateButton("Kill All", function()
   KillAll()
 end)
 Main:CreateToggle("Loop Kill All", function(state)
-  while state and task.wait() do
+  loopkillall = state
+  while loopkillall and task.wait() do
     pcall(function()
       KillAll()
     end)

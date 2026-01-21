@@ -1,7 +1,7 @@
 local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
 local Window = lib:NewWindow("Fluffy Infection")
 local Main, Team = Window:NewSection("Main"), Window:NewSection("Team")
-local killAura, autoEscape, spamSounds, loopkillall
+local killAura, autoEscape, spamSounds, loopkillall, autoGetBat
 if workspace:FindFirstChild("fagfolder") then
   --
 else
@@ -58,7 +58,8 @@ Main:CreateToggle("Kill Aura", function(state)
   killAura = state
 end)
 Main:CreateToggle("Auto Get Bat", function(state)
-  while state and task.wait() do
+  autoGetBat = state
+  while autoGetBat and task.wait() do
     pcall(function()
       GetBat()
     end)
@@ -88,7 +89,11 @@ Team:CreateButton("Human", function()
 end)
 Team:CreateButton("Krymzonix", function()
   if game.Players.LocalPlayer.Team == game.Teams.Human then
-    firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, workspace.Map.CrimsonPart:GetChildren()[9], 0)
+    for i,v in ipairs(workspace["L2022-M2023"]["2023CrimsonParts"]:GetChildren()) do
+      if v.Color == Color3.fromRGB(159, 243, 233) then
+        firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v, 0)
+      end
+    end
   end
 end)
 game:GetService("RunService").RenderStepped:Connect(function()

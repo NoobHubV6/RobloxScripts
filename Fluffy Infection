@@ -89,11 +89,7 @@ Team:CreateButton("Human", function()
 end)
 Team:CreateButton("Krymzonix", function()
   if game.Players.LocalPlayer.Team == game.Teams.Human then
-    for i,v in ipairs(workspace["L2022-M2023"]["2023CrimsonParts"]:GetChildren()) do
-      if v.Color == Color3.fromRGB(159, 243, 233) then
-        firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v, 0)
-      end
-    end
+    firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, workspace.fagfolder.CrimsonPart:FindFirstChildOfClass("Part"), 0)
   end
 end)
 game:GetService("RunService").RenderStepped:Connect(function()

@@ -92,6 +92,109 @@ Team:CreateButton("Human", function()
 end)
 Team:CreateButton("Krymzonix", function()
   if game.Players.LocalPlayer.Team == game.Teams.Human then
+    for i,v in ipairs(workspace.fagfolder:GetChildren()) do
+      if v.ClassName == "MeshPart" and v.MeshId == "rbxassetid://14631666929" and v.TextureID == "rbxassetid://14631666957" then
+        firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v, 0)
+      end
+    end
+  end
+end)
+Other:CreateButton("Teleport to old map", function()
+  game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(10496, 10236, -6601)
+end)
+game:GetService("RunService").RenderStepped:Connect(function()
+  if killAura then
+    for i,v in ipairs(game.Players:GetPlayers()) do
+      if not v:IsFriendsWith(game.Players.LocalPlayer.UserId) then
+        if v.Team ~= game.Players.LocalPlayer.Team and v.Character.Humanoid.Health ~= 0 then
+          local tool = game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool")
+          if tool and (v.Character.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 10 then
+            tool.Remote.Hit:FireServer(v.Character.HumanoidRootPart, v.Character.Humanoid, v.Character.HumanoidRootPart.Position)
+          end
+        end
+      end
+    end
+  end
+  if autoEscape then
+    game.Players.LocalPlayer.PlayerGui.EscapeGui.Remote.Hit:InvokeServer()
+  end
+  if spamSounds then
+    game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool").Remote.PlaySound:FireServer('Swing')
+  end
+end)
+
+local mt = getrawmetatable(game)
+make_writeable(mt)
+
+local namecall = mt.__namecall
+mt.__namecall = newcclosure(function(self, ...)
+    local method = getnamecallmethod()
+    local args = {...}
+
+    if method == "Invoke" and tostring(self) == "Cooldown" then
+    if lessCooldown then    
+        args[1] = 0
+    end
+    end
+    return namecall(self, table.unpack(args))
+end)    
+    else    
+    local oldpos = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame
+    game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(workspace.Map.Areas.Reactor.RadioactiveBat.Position)
+    repeat task.wait()
+    game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(workspace.Map.Areas.Reactor.RadioactiveBat.Position)
+    fireproximityprompt(workspace.Map.Areas.Reactor.RadioactiveBat.ProximityPrompt, 2, false)
+    until game.Players.LocalPlayer.Character:FindFirstChild("Radioactive Bat") or game.Players.LocalPlayer.Backpack:FindFirstChild("Radioactive Bat")
+    game:GetService("Players").localPlayer.Character.HumanoidRootPart.CFrame = oldpos
+end
+end
+end
+local folder = workspace:FindFirstChild("fagfolder")
+Main:CreateToggle("Anti Fag Infect", function(state)
+    if state then
+      folder.Parent = nil
+    else
+      folder.Parent = workspace
+    end
+end)
+Main:CreateToggle("Kill Aura", function(state)
+  killAura = state
+end)
+Main:CreateToggle("Auto Get Bat", function(state)
+  autoGetBat = state
+  while autoGetBat and task.wait() do
+    pcall(function()
+      GetBat()
+    end)
+  end
+end)
+Main:CreateButton("Kill All", function()
+  KillAll()
+end)
+Main:CreateToggle("Loop Kill All", function(state)
+  loopkillall = state
+  while loopkillall and task.wait() do
+    pcall(function()
+      KillAll()
+    end)
+  end
+end)
+Main:CreateToggle("Auto Escape Gui", function(state)
+  autoEscape = state
+end)
+Main:CreateToggle("Spam Tool Sounds", function(state)
+  spamSounds = state
+end)
+Main:CreateToggle("Less Cooldown", function(state)
+  lessCooldown = state
+end)
+Team:CreateButton("Human", function()
+  if game.Players.LocalPlayer.Team == game.Teams.Krymzonix then
+    game.Players.LocalPlayer.Character.Humanoid:ChangeState("Dead")
+  end
+end)
+Team:CreateButton("Krymzonix", function()
+  if game.Players.LocalPlayer.Team == game.Teams.Human then
     firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, workspace.fagfolder.CrimsonPart:FindFirstChildOfClass("Part"), 0)
   end
 end)

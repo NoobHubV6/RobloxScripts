@@ -1,6 +1,6 @@
 local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
 local Window = lib:NewWindow("Fluffy Infection")
-local Main, Team = Window:NewSection("Main"), Window:NewSection("Team")
+local Main, Team, Other = Window:NewSection("Main"), Window:NewSection("Team"), Window:NewSection("Others")
 local killAura, autoEscape, spamSounds, loopkillall, autoGetBat
 if workspace:FindFirstChild("fagfolder") then
   --
@@ -20,12 +20,12 @@ if not v:IsFriendsWith(game.Players.LocalPlayer.UserId) then
   local savedpos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
   repeat task.wait()
       GetBat()
-      if game.Players.LocalPlayer.Backpack:FindFirstChild("Metal Bat") then
-            game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack:FindFirstChild("Metal Bat"))
+      if game.Players.LocalPlayer.Backpack:FindFirstChild("Radioactive Bat") then
+            game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack:FindFirstChild("Radioactive Bat"))
       end
       game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Character.HumanoidRootPart.CFrame * CFrame.new(0, 5, 0)
-      game.Players.LocalPlayer.Character:FindFirstChild("Metal Bat").Remote.Hit:FireServer(v.Character.Torso,v.Character.Humanoid,v.Character.Torso.Position)
-  until v.Team == game.Teams.Human or v.Character.Humanoid.Health == 0
+      game.Players.LocalPlayer.Character:FindFirstChild("Radioactive Bat").Remote.Hit:FireServer(v.Character.Torso,v.Character.Humanoid,v.Character.Torso.Position)
+  until v.Team == game.Teams.Human or not v.Character or v.Character.Humanoid.Health == 0
   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = savedpos
 end
 end
@@ -33,15 +33,15 @@ end
 end
 function GetBat()
 if game.Players.LocalPlayer.Team == game.Teams.Human then
-        if game.Players.LocalPlayer.Character:FindFirstChild("Bat") or game.Players.LocalPlayer.Backpack:FindFirstChild("Bat") or game.Players.LocalPlayer.Backpack:FindFirstChild("Metal Bat") or game.Players.LocalPlayer.Character:FindFirstChild("Metal Bat") then
+        if game.Players.LocalPlayer.Character:FindFirstChild("Radioactive Bat") or game.Players.LocalPlayer.Backpack:FindFirstChild("Radioactive Bat") then
     
     else    
     local oldpos = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame
-    game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(workspace.Map.MetalBat.Position)
+    game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(workspace.Map.Areas.Reactor.RadioactiveBat.Position)
     repeat task.wait()
-    game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(workspace.Map.MetalBat.Position)
-    fireproximityprompt(workspace.Map.MetalBat.ProximityPrompt, 2, false)
-    until game.Players.LocalPlayer.Character:FindFirstChild("Bat") or game.Players.LocalPlayer.Backpack:FindFirstChild("Bat") or game.Players.LocalPlayer.Backpack:FindFirstChild("Metal Bat") or game.Players.LocalPlayer.Character:FindFirstChild("Metal Bat")
+    game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(workspace.Map.Areas.Reactor.RadioactiveBat.Position)
+    fireproximityprompt(workspace.Map.Areas.Reactor.RadioactiveBat.ProximityPrompt, 2, false)
+    until game.Players.LocalPlayer.Character:FindFirstChild("Radioactive Bat") or game.Players.LocalPlayer.Backpack:FindFirstChild("Radioactive Bat")
     game:GetService("Players").localPlayer.Character.HumanoidRootPart.CFrame = oldpos
 end
 end
@@ -91,6 +91,9 @@ Team:CreateButton("Krymzonix", function()
   if game.Players.LocalPlayer.Team == game.Teams.Human then
     firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, workspace.fagfolder.CrimsonPart:FindFirstChildOfClass("Part"), 0)
   end
+end)
+Other:CreateButton("Teleport to old map", function()
+  game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(10496, 10236, -6601)
 end)
 game:GetService("RunService").RenderStepped:Connect(function()
   if killAura then

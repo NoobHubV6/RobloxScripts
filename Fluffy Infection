@@ -1,7 +1,7 @@
 local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
 local Window = lib:NewWindow("Fluffy Infection")
 local Main, Team, Other = Window:NewSection("Main"), Window:NewSection("Team"), Window:NewSection("Others")
-local killAura, autoEscape, spamSounds, loopkillall, autoGetBat
+local killAura, autoEscape, spamSounds, loopkillall, autoGetBat, lessCooldown
 if workspace:FindFirstChild("fagfolder") then
   --
 else
@@ -82,6 +82,9 @@ end)
 Main:CreateToggle("Spam Tool Sounds", function(state)
   spamSounds = state
 end)
+Main:CreateToggle("Less Cooldown", function(state)
+  lessCooldown = state
+end)
 Team:CreateButton("Human", function()
   if game.Players.LocalPlayer.Team == game.Teams.Krymzonix then
     game.Players.LocalPlayer.Character.Humanoid:ChangeState("Dead")
@@ -114,4 +117,20 @@ game:GetService("RunService").RenderStepped:Connect(function()
   if spamSounds then
     game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool").Remote.PlaySound:FireServer('Swing')
   end
+end)
+
+local mt = getrawmetatable(game)
+make_writeable(mt)
+
+local namecall = mt.__namecall
+mt.__namecall = newcclosure(function(self, ...)
+    local method = getnamecallmethod()
+    local args = {...}
+
+    if method == "Invoke" and tostring(self) == "Cooldown" then
+    if lessCooldown then    
+        args[1] = 0
+    end
+    end
+    return namecall(self, table.unpack(args))
 end)

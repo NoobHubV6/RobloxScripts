@@ -13,6 +13,18 @@ else
     end
   end
 end
+if workspace:FindFirstChild("barrierfolder") then
+  --
+else
+  local folder2 = Instance.new("Folder",workspace)
+  folder2.Name = "barrierfolder"
+  workspace.Map["Barrier Blocks (Off-map)"].Parent = folder2
+  for i,v in ipairs(workspace.Map.Areas.MainSpawn:GetChildren()) do
+    if v.Name == "Barrier" or v.Name == "KBarrier" or v.Name == "KBarrier1" or v.Name == "Field1" or v.Name == "Field2" then
+      v.Parent = folder2
+    end
+  end
+end
 function KillAll()
   for i,v in next, game.Teams.Krymzonix:GetPlayers() do
 if v ~= game.Players.LocalPlayer and not v.Character:FindFirstChildWhichIsA("ForceField") and v.Character.Humanoid.Health ~= 0 then
@@ -46,7 +58,7 @@ if game.Players.LocalPlayer.Team == game.Teams.Human then
 end
 end
 end
-local folder = workspace:FindFirstChild("fagfolder")
+local folder, folder2 = workspace:FindFirstChild("fagfolder"), workspace:FindFirstChild("barrierfolder")
 Main:CreateToggle("Anti Fag Infect", function(state)
     if state then
       folder.Parent = nil
@@ -102,104 +114,12 @@ end)
 Other:CreateButton("Teleport to old map", function()
   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(10496, 10236, -6601)
 end)
-game:GetService("RunService").RenderStepped:Connect(function()
-  if killAura then
-    for i,v in ipairs(game.Players:GetPlayers()) do
-      if not v:IsFriendsWith(game.Players.LocalPlayer.UserId) then
-        if v.Team ~= game.Players.LocalPlayer.Team and v.Character.Humanoid.Health ~= 0 then
-          local tool = game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool")
-          if tool and (v.Character.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 10 then
-            tool.Remote.Hit:FireServer(v.Character.HumanoidRootPart, v.Character.Humanoid, v.Character.HumanoidRootPart.Position)
-          end
-        end
-      end
-    end
-  end
-  if autoEscape then
-    game.Players.LocalPlayer.PlayerGui.EscapeGui.Remote.Hit:InvokeServer()
-  end
-  if spamSounds then
-    game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool").Remote.PlaySound:FireServer('Swing')
-  end
-end)
-
-local mt = getrawmetatable(game)
-make_writeable(mt)
-
-local namecall = mt.__namecall
-mt.__namecall = newcclosure(function(self, ...)
-    local method = getnamecallmethod()
-    local args = {...}
-
-    if method == "Invoke" and tostring(self) == "Cooldown" then
-    if lessCooldown then    
-        args[1] = 0
-    end
-    end
-    return namecall(self, table.unpack(args))
-end)    
-    else    
-    local oldpos = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame
-    game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(workspace.Map.Areas.Reactor.RadioactiveBat.Position)
-    repeat task.wait()
-    game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(workspace.Map.Areas.Reactor.RadioactiveBat.Position)
-    fireproximityprompt(workspace.Map.Areas.Reactor.RadioactiveBat.ProximityPrompt, 2, false)
-    until game.Players.LocalPlayer.Character:FindFirstChild("Radioactive Bat") or game.Players.LocalPlayer.Backpack:FindFirstChild("Radioactive Bat")
-    game:GetService("Players").localPlayer.Character.HumanoidRootPart.CFrame = oldpos
-end
-end
-end
-local folder = workspace:FindFirstChild("fagfolder")
-Main:CreateToggle("Anti Fag Infect", function(state)
+Other:CreateToggle("Delete Barrier", function(state)
     if state then
-      folder.Parent = nil
+      folder2.Parent = nil
     else
-      folder.Parent = workspace
+      folder2.Parent = workspace
     end
-end)
-Main:CreateToggle("Kill Aura", function(state)
-  killAura = state
-end)
-Main:CreateToggle("Auto Get Bat", function(state)
-  autoGetBat = state
-  while autoGetBat and task.wait() do
-    pcall(function()
-      GetBat()
-    end)
-  end
-end)
-Main:CreateButton("Kill All", function()
-  KillAll()
-end)
-Main:CreateToggle("Loop Kill All", function(state)
-  loopkillall = state
-  while loopkillall and task.wait() do
-    pcall(function()
-      KillAll()
-    end)
-  end
-end)
-Main:CreateToggle("Auto Escape Gui", function(state)
-  autoEscape = state
-end)
-Main:CreateToggle("Spam Tool Sounds", function(state)
-  spamSounds = state
-end)
-Main:CreateToggle("Less Cooldown", function(state)
-  lessCooldown = state
-end)
-Team:CreateButton("Human", function()
-  if game.Players.LocalPlayer.Team == game.Teams.Krymzonix then
-    game.Players.LocalPlayer.Character.Humanoid:ChangeState("Dead")
-  end
-end)
-Team:CreateButton("Krymzonix", function()
-  if game.Players.LocalPlayer.Team == game.Teams.Human then
-    firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, workspace.fagfolder.CrimsonPart:FindFirstChildOfClass("Part"), 0)
-  end
-end)
-Other:CreateButton("Teleport to old map", function()
-  game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(10496, 10236, -6601)
 end)
 game:GetService("RunService").RenderStepped:Connect(function()
   if killAura then

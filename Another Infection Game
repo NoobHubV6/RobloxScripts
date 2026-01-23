@@ -9,7 +9,7 @@ game:GetService("RunService").RenderStepped:Connect(function()
   if fastAttack then
     for i,v in ipairs(game.Players:GetPlayers()) do
       if v ~= game.Players.LocalPlayer and v.Team ~= game.Players.LocalPlayer.Team then
-        if (v.Character.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 10 and game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool") then
+        if (v.Character.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 9 and game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool") then
           game.ReplicatedStorage.Functions.OnWeaponHit:InvokeServer(v.Character:FindFirstChild("Humanoid"), game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool"))
         end
       end

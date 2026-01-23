@@ -1,18 +1,32 @@
 local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
 local Window = lib:NewWindow("67 Simulator")
 local Main = Window:NewSection("Main")
-local fastAura, Streak = nil, 1
+local fastAura, Streak, autoRebirth, autoUpgrades = nil, 1, nil, nil
 Main:CreateButton("Reset Streak", function()
   Streak = 1
 end)
 Main:CreateToggle("Fast Aura", function(state)
   fastAura = state
 end)
+Main:CreateToggle("Auto Rebirth", function(state)
+  autoRebirth = state
+end)
+Main:CreateToggle("Auto Upgrades", function(state)
+  autoUpgrades = state
+end)
 spawn(function()
   task0 = function()
     if fastAura then
       Streak = Streak + 1
       game.ReplicatedStorage.Remotes.AuraGained:FireServer({streak = Streak, targetSide = "right", hitType = "sweet"})
+    end
+    if autoRebirth then
+      game.ReplicatedStorage.Remotes.RequestRebirth:FireServer()
+    end
+    if autoUpgrades then
+      game.ReplicatedStorage.Remotes.RequestUpgrade:FireServer("baseAura")
+      game.ReplicatedStorage.Remotes.RequestUpgrade:FireServer("streakMultiplier")
+      game.ReplicatedStorage.Remotes.RequestUpgrade:FireServer("sweetSpotSize")
     end
   end
   while task.wait() do

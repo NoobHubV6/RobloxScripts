@@ -1,18 +1,18 @@
 local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
-local Window = lib:NewWindow("Fur Infection")
+local Window = lib:NewWindow("Fur Infection Outbreak")
 local Main = Window:NewSection("Main")
-local autoAttack, autoEscape
-Main:CreateToggle("Auto Attack", function(state)
-  autoAttack = state
+local fastAttack, autoEscape
+Main:CreateToggle("Fast Attack", function(state)
+  fastAttack = state
 end)
 Main:CreateToggle("Auto Escape", function(state)
   autoEscape = state
 end)
 game:GetService("RunService").RenderStepped:Connect(function()
-  if autoAttack then
+  if fastAttack then
     for i,v in ipairs(game.Players:GetPlayers()) do
       if v ~= game.Players.LocalPlayer and v.Team ~= game.Players.LocalPlayer.Team then
-        if (v.Character.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 10 and game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool") then
+        if (v.Character.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 6.5 and game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool") then
           game.ReplicatedStorage.SovaSystemMeleeR.Remotes.RequestAttack:InvokeServer(2)
           game.ReplicatedStorage.SovaSystemMeleeR.Remotes.OnHit:FireServer(v.Character:WaitForChild("Left Arm"),v.Character:WaitForChild("Humanoid"))
         end

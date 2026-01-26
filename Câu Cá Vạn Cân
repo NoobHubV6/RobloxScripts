@@ -1,7 +1,7 @@
 local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
 local Window = lib:NewWindow("Câu Cá Vạn Cân")
 local Main = Window:NewSection("Main")
-local kg = 1
+local kg
 Main:CreateTextbox("Put Your Here", function(text)
   kg = tonumber(text)
   if kg then

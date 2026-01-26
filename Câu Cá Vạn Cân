@@ -1,1 +1,11 @@
---
+local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
+local Window = lib:NewWindow("Câu Cá Vạn Cân")
+local Main = Window:NewSection("Main")
+local kg = 1
+Main:CreateTextbox("Put Your Here", function(text)
+  kg = tonumber(text)
+  if kg then
+    local tool = game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool") or game.Players.LocalPlayer.Backpack:FindFirstChildOfClass("Tool")
+    tool.FishingEvent:FireServer("ket_thuc",{weight = kg})
+  end
+end)

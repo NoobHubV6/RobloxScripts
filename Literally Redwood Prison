@@ -13,8 +13,10 @@ local Window = lib:NewWindow("Literally Redwood Prison")
 local Main = Window:NewSection("Main")
 local Team = Window:NewSection("Team")
 local Kill = Window:NewSection("Kill")
+local Loopkill = Window:NewSection("Loopkill")
 local Loops = {Kills = {All = false}}
 local connection
+local loopkillall, loopkillinmates, loopkillguards, loopkillcriminals
 function SaveCamPos()
 	SavedPositions.OldCameraPos = Camera.CFrame
 end
@@ -57,6 +59,15 @@ function TeamTo(args)
   end
 end
 function KillPLR(plr)
+    if plr.Team == LocalPlayer.Team then
+		if plr.Team == Teams.Fugitives or plr.Team == Teams.Police then
+			TeamTo("inmate")
+            LocalPlayer.CharacterAdded:Wait()
+		else
+			TeamTo("criminal")
+			
+		end
+	end
     local tool = LocalPlayer.Backpack:FindFirstChild("M60") or LocalPlayer.Character:FindFirstChild("M60")
     if not tool then
        Resources("RemoteFunction"):InvokeServer("giveItem", "M60")
@@ -64,6 +75,33 @@ function KillPLR(plr)
     LocalPlayer.Character.Humanoid:EquipTool(LocalPlayer.Backpack.M60)
     Resources("RemoteEvent"):FireServer("dealDamage", plr.Character.Humanoid, math.huge); task.wait()
     LocalPlayer.Character.M60:Destroy()
+end
+function KillTeam(Team)
+    if Team == "inmate" then
+      for i,v in ipairs(game.Teams.Prisoners:GetPlayers()) do
+      if v ~= game.Players.LocalPlayer and not v.Character:FindFirstChild("ForceField") and v.Character.Humanoid.Health ~= 0 then
+             KillPLR(v)
+      end
+end
+    elseif Team == "guard" then
+      for i,v in ipairs(game.Teams.Police:GetPlayers()) do
+      if v ~= game.Players.LocalPlayer and not v.Character:FindFirstChild("ForceField") and v.Character.Humanoid.Health ~= 0 then
+             KillPLR(v)
+      end
+end
+    elseif Team == 'criminal' then
+      for i,v in ipairs(game.Teams.Fugitives:GetPlayers()) do
+      if v ~= game.Players.LocalPlayer and not v.Character:FindFirstChild("ForceField") and v.Character.Humanoid.Health ~= 0 then
+             KillPLR(v)
+      end
+end
+    elseif Team == 'all' then
+      for i,v in ipairs(game.Players:GetPlayers()) do
+      if v.Team ~= Teams.Choosing and v ~= game.Players.LocalPlayer and not v.Character:FindFirstChild("ForceField") and v.Character.Humanoid.Health ~= 0 then
+             KillPLR(v)
+      end
+end
+    end
 end
 Main:CreateToggle("Auto Respawn", function(state)
   autoRespawn = state
@@ -84,43 +122,32 @@ Team:CreateButton("Become Neutral", function()
   TeamTo("neutral")
 end)
 Kill:CreateButton("Kill All", function()
-if LocalPlayer.Team ~= Teams.Choosing then
-      TeamTo("neutral")
-      game.Players.LocalPlayer.CharacterAdded:Wait()
-end
-for i,v in ipairs(game.Players:GetPlayers()) do
-      if v.Team ~= Teams.Choosing and v ~= game.Players.LocalPlayer and not v.Character:FindFirstChild("ForceField") and v.Character.Humanoid.Health ~= 0 then
-             KillPLR(v)
-      end
-end
+KillTeam("all")
 end)
 Kill:CreateButton("Kill Inmates", function()
-if LocalPlayer.Team ~= Teams.Fugitives then
-      TeamTo("criminal")
-end
-for i,v in ipairs(game.Teams.Prisoners:GetPlayers()) do
-      if v ~= game.Players.LocalPlayer and not v.Character:FindFirstChild("ForceField") and v.Character.Humanoid.Health ~= 0 then
-             KillPLR(v)
-      end
-end
+KillTeam("inmate")
 end)
 Kill:CreateButton("Kill Guards", function()
-if LocalPlayer.Team == Teams.Police then
-      TeamTo("prisoners")
-      LocalPlayer.CharacterAdded:Wait()
-end
-for i,v in ipairs(game.Teams.Police:GetPlayers()) do
-      if v ~= game.Players.LocalPlayer and not v.Character:FindFirstChild("ForceField") and v.Character.Humanoid.Health ~= 0 then
-             KillPLR(v)
-      end
-end
+KillTeam("guard")
+end)
+Kill:CreateButton("Kill Criminals", function()
+KillTeam("criminal")
+end)
+Loopkill:CreateToggle("Loop Kill All", function(state)
+loopkillall = state
+end)
+Loopkill:CreateToggle("Loop Kill Inmates", function(state)
+loopkillinmates = state
+end)
+Loopkill:CreateToggle("Loop Kill Guards", function(state)
+loopkillguards = state
+end)
+Loopkill:CreateToggle("Loop Kill Criminals", function(state)
+loopkillcriminals = state
 end)
 game.RunService.RenderStepped:Connect(function()
   if antiCheat and LocalPlayer.PlayerGui.GUI.banFrame.Visible then
     LocalPlayer.PlayerGui.GUI.banFrame.Visible = nil
-  end
-  if LocalPlayer.Team == Teams.Choosing then
-    Camera.CameraType = "Track"; LocalPlayer.PlayerGui.GUI.roleChoose.Visible = nil; Camera.CameraSubject = LocalPlayer.Character.Humanoid
   end
 end)
 local lochar = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
@@ -159,3 +186,23 @@ local function oncharadded()
 end
 Connections.Died = lochar:WaitForChild("Humanoid").Died:Connect(ondiedevent)
 Connections.CharacterAdded = LocalPlayer.CharacterAdded:Connect(oncharadded)
+spawn(function()
+  task0 = function()
+    if loopkillall then
+      KillTeam('all')
+    else
+      if loopkillinmates then
+        KillTeam("inmate")
+      end
+      if loopkillguards then
+        KillTeam("guard")
+      end
+      if loopkillcriminals then
+        KillTeam("criminal")
+      end
+    end
+  end
+  while task.wait() do
+    pcall(task0)
+  end
+end)

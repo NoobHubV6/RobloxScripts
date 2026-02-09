@@ -1,0 +1,16 @@
+local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
+local Window = lib:NewWindow("Press Buttons To Grow Numbers")
+local Main = Window:NewSection("Main")
+local autoButtonMulti
+Main:CreateToggle("Auto Buttons Multi", function(state)
+  autoButtonMulti = state
+end)
+game:GetService("RunService").RenderStepped:Connect(function()
+  if autoButtonMulti then
+    for i,v in ipairs(workspace.Buttons.Multi:GetChildren()) do
+      if v.Button.BrickColor ~= 'Burnat Sienna' and (v.Button.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude < 10 then
+        game.ReplicatedStorage.Events.ButtonPress:FireServer({"Normal","Multi",v.Name})
+      end
+    end
+  end
+end)

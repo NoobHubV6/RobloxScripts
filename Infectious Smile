@@ -1,9 +1,12 @@
 local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
 local Window = lib:NewWindow("Infectious Smile")
 local Main = Window:NewSection("Main")
-local fastSwing
+local fastSwing, antiInfect
 Main:CreateToggle("Fast Swing (Human)", function(state)
   fastSwing = state
+end)
+Main:CreateToggle("Anti Infect", function(state)
+  antiInfect = state
 end)
 game:GetService('RunService').RenderStepped:Connect(function()
   if fastSwing then
@@ -11,6 +14,11 @@ game:GetService('RunService').RenderStepped:Connect(function()
       if v ~= game.Players.LocalPlayer and (v.Character.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude < 5 and v.Character.Humanoid.Health ~= 0 and v.Team == game.Teams.Smiling then
         game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool").SwingEvent:FireServer()
       end
+    end
+  end
+  if antiInfect then
+    if game.Players.LocalPlayer.Team == game.Teams.Smiling then
+      game.Players.LocalPlayer.Character.Ragdoll.Ragdoll:FireServer()
     end
   end
 end)

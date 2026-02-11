@@ -1,14 +1,13 @@
 local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
 local Window = lib:NewWindow("+1 SkillPoint Every Second")
 local Main = Window:NewSection("Main")
-local NegativeStat, Stat = "Magic Damage", "Physical Damage"
-Main:CreateDropdown("Select Upgrade Stats ", {"Physical Damage","Health","Regeneration","Defence","Speed"}, 1, function(select)
-  Stat = select
+local NegativeStat = "Magic Damage"
+Main:CreateDropdown("Select Stats ", {"Physical Damage","Magic Damage","Health","Regeneration","Defence","Speed"}, 1, function(select)
+  NegativeStat = select
 end)
-Main:CreateTextbox("Upgrade Stats", function(text)
+Main:CreateTextbox("Stat Points", function(text)
   local Points = tonumber(text)
   workspace.__THINGS.__REMOTES.update_stats:FireServer({NegativeStat, -Points})
-  workspace.__THINGS.__REMOTES.update_stats:FireServer({Stat, Points})
 end)
 Main:CreateButton("Instant Rebirth", function()
 if game.Players.LocalPlayer.leaderstats["\226\173\144 Rebirth"].Value < 25 then

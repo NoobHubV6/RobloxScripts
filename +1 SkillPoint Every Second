@@ -12,7 +12,7 @@ Main:CreateTextbox("Upgrade Stats", function(text)
 end)
 Main:CreateButton("Instant Rebirth", function()
 if game.Players.LocalPlayer.leaderstats["\226\173\144 Rebirth"].Value < 25 then
-workspace.__THINGS.__REMOTES.update_stats:FireServer({NegativeStat, -1e33})
+workspace.__THINGS.__REMOTES.update_stats:FireServer({NegativeStat, -math.huge})
 workspace.__THINGS.__REMOTES.rebirth:FireServer()
 end
 end)

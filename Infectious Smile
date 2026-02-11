@@ -1,0 +1,16 @@
+local lib = loadstring(Game:HttpGet("https://raw.githubusercontent.com/NoobHubV1/NoobHubV1/main/Wizard%20Lib.lua"))()
+local Window = lib:NewWindow("Infectious Smile")
+local Main = Window:NewSection("Main")
+local fastSwing
+Main:CreateToggle("Fast Swing (Human)", function(state)
+  fastSwing = state
+end)
+game:GetService('RunService').RenderStepped:Connect(function()
+  if fastSwing then
+    for i,v in ipairs(game.Players:GetPlayers()) do
+      if v ~= game.Players.LocalPlayer and (v.Character.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude < 5 and v.Character.Humanoid.Health ~= 0 and v.Team == game.Teams.Smiling then
+        game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool").SwingEvent:FireServer()
+      end
+    end
+  end
+end)
